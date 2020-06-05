@@ -10,6 +10,11 @@
 			<Label Text="Sheduler App"
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />
+
+			<ActivityIndicator x:Name="aiDefault"
+							   VerticalOptions="CenterAndExpand"
+							   HorizontalOptions="CenterAndExpand"
+							   IsRunning="{Binding IsTaskRunning}"/>
 		</StackLayout>
     </ContentPage.Content>
 </ContentPage>

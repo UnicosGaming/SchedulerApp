@@ -17,23 +17,47 @@ namespace SchedulerApp.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IIdentityService _identityService;
 
+        private bool _isTaskRunning;
+        public bool IsTaskRunning
+        {
+            get { return _isTaskRunning; }
+            set { SetProperty(ref _isTaskRunning, value); }
+        }
+
         public SplashPageViewModel(INavigationService navigationService, IIdentityService identityService)
         {
             _navigationService = navigationService;
             _identityService = identityService;
 
-            MessagingCenter.Subscribe<IIdentityService>(this, "validation_ok", (_) => { _navigationService.NavigateAsync("/MainPage"); });
-            MessagingCenter.Subscribe<IIdentityService>(this, "login_silent_error", (_) => { _navigationService.NavigateAsync("/LoginPage"); });
+            MessagingCenter.Subscribe<IIdentityService>(this, "validation_ok", (_) => { ValidationOk(); });
+            MessagingCenter.Subscribe<IIdentityService>(this, "login_silent_error", (_) => { ValidationError(); });
+
+            TryValidate();
+        }
+
+        private void TryValidate()
+        {
             try
             {
+                IsTaskRunning = true;
                 _identityService.LoginSilentAsync();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("### Login silent failed ###");
             }
+        }
 
+        private void ValidationOk()
+        {
+            IsTaskRunning = false;
+            _navigationService.NavigateAsync("/MainPage");
+        }
 
+        private void ValidationError()
+        {
+            IsTaskRunning = false;
+            _navigationService.NavigateAsync("/LoginPage");
         }
 
 
