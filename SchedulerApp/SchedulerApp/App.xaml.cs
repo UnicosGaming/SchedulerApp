@@ -12,6 +12,7 @@ using SchedulerApp.Configuration;
 using System.IO;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+[assembly: ExportFont("UnicaOne-Regular.ttf")]
 namespace SchedulerApp
 {
     public partial class App

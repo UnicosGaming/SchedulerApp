@@ -7,5 +7,26 @@
 
     <!-- Application resource dictionary -->
 
-  </Application.Resources>
+    <!-- Colors -->
+		<Color x:Key="AppBackgroundColor">Black</Color>
+		<Color x:Key="FontDefaultColor">White</Color>
+		<Color x:Key="FontHeadColor">#c5b35a</Color>
+		<Color x:Key="ActivityIndicatorColor">White</Color>
+
+
+		<Style TargetType="{x:Type ContentPage}" ApplyToDerivedTypes="True">
+			<Setter Property="BackgroundColor"
+					Value="{StaticResource AppBackgroundColor}" />
+		</Style>
+
+		<Style TargetType="{x:Type Label}" ApplyToDerivedTypes="True">
+			<Setter Property="FontFamily"
+					Value="UnicaOne-Regular" />
+			<Setter Property="TextColor"
+					Value="{StaticResource FontDefaultColor}" />
+			<Setter Property="FontSize"
+					Value="20" />
+		</Style>
+
+	</Application.Resources>
 </prism:PrismApplication>
