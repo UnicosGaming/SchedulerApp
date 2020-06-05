@@ -1,0 +1,12 @@
+Secrets.cs
+MsalActivity.cs
+AndroidManifest.xml
+
+# Visual Studio directory
+.vs/
+
+# Build
+[Dd]ebug/
+[Bb]in/
+[Rr]elease/
+[Oo]bj/
