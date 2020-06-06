@@ -10,7 +10,7 @@ Format of the `keys.txt` file:
 KEY1:CE92C2C8-0B39-44B1-9798-11DD379B27C0
 ```
 
-The files that need the API KEY value must have a placeholder that the will use to replace by the corresponding value.
+The files that need the API KEY value must have a placeholder that will be used to be replaced by the corresponding value.
 
 Below there is an example of a file with the placeholder INSERT_KEY_HERE:
 ```
