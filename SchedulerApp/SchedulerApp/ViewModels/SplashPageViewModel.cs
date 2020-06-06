@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using SchedulerApp.Services;
+using SchedulerApp.Services.IdentityService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace SchedulerApp.ViewModels
 {
-    public class SplashPageViewModel : BindableBase
+    public class SplashPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
         private readonly IIdentityService _identityService;
@@ -24,7 +24,7 @@ namespace SchedulerApp.ViewModels
             set { SetProperty(ref _isTaskRunning, value); }
         }
 
-        public SplashPageViewModel(INavigationService navigationService, IIdentityService identityService)
+        public SplashPageViewModel(INavigationService navigationService, IIdentityService identityService):base(navigationService)
         {
             _navigationService = navigationService;
             _identityService = identityService;

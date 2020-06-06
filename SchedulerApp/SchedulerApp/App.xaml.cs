@@ -6,13 +6,15 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using SchedulerApp.Services;
+using SchedulerApp.Services.IdentityService;
 using Newtonsoft.Json;
 using SchedulerApp.Configuration;
 using System.IO;
+using SchedulerApp.Services.DataService;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
+[assembly: ExportFont("Roboto-Regular.ttf")]
 namespace SchedulerApp
 {
     public partial class App
@@ -32,13 +34,14 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/SplashPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage?message=Hello");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
+            containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

@@ -12,6 +12,7 @@
 		<Color x:Key="FontDefaultColor">White</Color>
 		<Color x:Key="FontHeadColor">#c5b35a</Color>
 		<Color x:Key="ActivityIndicatorColor">White</Color>
+		<Color x:Key="ListItemSeparatorColor">#c5b35a</Color>
 
 
 		<Style TargetType="{x:Type ContentPage}" ApplyToDerivedTypes="True">
@@ -21,11 +22,11 @@
 
 		<Style TargetType="{x:Type Label}" ApplyToDerivedTypes="True">
 			<Setter Property="FontFamily"
-					Value="UnicaOne-Regular" />
+					Value="Roboto-Regular" />
 			<Setter Property="TextColor"
 					Value="{StaticResource FontDefaultColor}" />
 			<Setter Property="FontSize"
-					Value="20" />
+					Value="16" />
 		</Style>
 
 	</Application.Resources>

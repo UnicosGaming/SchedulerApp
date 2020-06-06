@@ -4,7 +4,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Providers;
-using SchedulerApp.Services;
+using SchedulerApp.Services.IdentityService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using Xamarin.Forms;
 
 namespace SchedulerApp.ViewModels
 {
-    public class LoginPageViewModel : BindableBase
+    public class LoginPageViewModel : ViewModelBase
     {
         private readonly IIdentityService _identityService;
         private readonly IUnityContainer _unityContainer;
@@ -23,7 +23,7 @@ namespace SchedulerApp.ViewModels
 
         public DelegateCommand LoginCommand { get; private set; }
 
-        public LoginPageViewModel(IIdentityService identityService, IUnityContainer unityContainer, INavigationService navigationService)
+        public LoginPageViewModel(IIdentityService identityService, IUnityContainer unityContainer, INavigationService navigationService) : base(navigationService)
         {
             Debug.WriteLine("### Login ViewModel ###");
 

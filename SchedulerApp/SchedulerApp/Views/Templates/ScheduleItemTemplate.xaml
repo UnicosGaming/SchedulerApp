@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 x:Class="SchedulerApp.Views.Templates.ScheduleItemTemplate">
+	<ContentView.Content>
+		<Grid RowSpacing="0"
+			  ColumnSpacing="15"
+			  Margin="14">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+
+			<Label Grid.Column="0"
+				   Grid.Row="0"
+				   Text="{Binding Date, StringFormat='{0:dd-MMM}'}" 
+				   HorizontalTextAlignment="Center"/>
+			<Label Grid.Column="0"
+				   Grid.Row="1"
+				   Text="{Binding Date, StringFormat='{0:HH:mm}'}" 
+				   HorizontalTextAlignment="Center"/>
+			<Label Grid.Column="1"
+				   Grid.Row="0"
+				   Text="{Binding Competition}" />
+			<Label Grid.Column="1"
+				   Grid.Row="1"
+				   Text="{Binding Stream}" />
+
+		</Grid>
+	</ContentView.Content>
+</ContentView>

@@ -1,12 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SchedulerApp.Views.MainPage"
-             Title="{Binding Title}">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d"
+			 xmlns:prism="http://prismlibrary.com"
+			 xmlns:coverters="clr-namespace:SchedulerApp.Converters"
+			 xmlns:templates="clr-namespace:SchedulerApp.Views.Templates"
+			 prism:ViewModelLocator.AutowireViewModel="True"
+			 x:Class="SchedulerApp.Views.MainPage">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-		<Label Text="Welcome to Xamarin Forms and Prism!"
-			   TextColor="{StaticResource FontHeadColor}" />
-    </StackLayout>
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<coverters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<StackLayout HorizontalOptions="CenterAndExpand"
+				 VerticalOptions="CenterAndExpand">
+		<ListView x:Name="lstSchedules"
+				  ItemsSource="{Binding Items}"
+				  CachingStrategy="RecycleElement"
+				  HasUnevenRows="True"
+				  SeparatorColor="{StaticResource ListItemSeparatorColor}">
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<ViewCell Tapped="ViewCell_Tapped">
+						<templates:ScheduleItemTemplate />
+					</ViewCell>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+			<ListView.Behaviors>
+				<prism:EventToCommandBehavior EventName="ItemTapped"
+											  Command="{Binding ItemTappedCommand}" 
+											  EventArgsConverter="{StaticResource itemTappedEventArgsConverter}"/>
+			</ListView.Behaviors>
+		</ListView>
+
+		<ActivityIndicator x:Name="aiDefault"
+						   VerticalOptions="CenterAndExpand"
+						   HorizontalOptions="CenterAndExpand"
+						   IsRunning="{Binding IsTaskRunning}" />
+	</StackLayout>
 
 </ContentPage>

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace SchedulerApp.Services
+namespace SchedulerApp.Services.IdentityService
 {
     public class IdentityService : IIdentityService
     {

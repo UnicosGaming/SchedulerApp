@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace SchedulerApp.ViewModels
@@ -18,6 +19,13 @@ namespace SchedulerApp.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        private bool _isTaskRunning;
+        public bool IsTaskRunning
+        {
+            get => _isTaskRunning;
+            set => SetProperty(ref _isTaskRunning, value);
+        }
+
         public ViewModelBase(INavigationService navigationService)
         {
             NavigationService = navigationService;
@@ -25,7 +33,7 @@ namespace SchedulerApp.ViewModels
 
         public virtual void Initialize(INavigationParameters parameters)
         {
-
+            
         }
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)

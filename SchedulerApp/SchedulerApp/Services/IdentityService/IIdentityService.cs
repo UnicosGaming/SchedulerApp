@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchedulerApp.Services
+namespace SchedulerApp.Services.IdentityService
 {
     public interface IIdentityService
     {
