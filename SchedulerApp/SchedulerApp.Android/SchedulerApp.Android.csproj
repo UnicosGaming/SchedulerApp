@@ -109,4 +109,7 @@
   <PropertyGroup>
     <PreBuildEvent>powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(SolutionDir)Tools\keys.txt "MsalID" $(ProjectDir)Properties\AndroidManifest.xml "`#INSERT_MsalID_HERE`#"</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>git checkout $(ProjectDir)Properties\AndroidManifest.xml</PostBuildEvent>
+  </PropertyGroup>
 </Project>

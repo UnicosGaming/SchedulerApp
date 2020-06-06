@@ -35,4 +35,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(SolutionDir)Tools\keys.txt &quot;ClientID&quot; $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientID`#&quot;&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(SolutionDir)Tools\keys.txt &quot;MsalID&quot; $(ProjectDir)Configuration\Secrets.cs &quot;`#MsalID`#&quot;" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="git checkout $(ProjectDir)Configuration\Secrets.cs" />
+  </Target>
 </Project>
