@@ -41,9 +41,6 @@ function Replace-Text{
         [Parameter(Mandatory=$true)]
         [string]$key
     )
-    Write-Host "# FILE: " $file
-    Write-Host "# PLACEHOLDER: " $placeholder
-    Write-Host "# KEY: " $key
     
     ((Get-Content -path $file -Raw) -replace $placeholder, $key) | Set-Content -Path $file
 }
