@@ -1,5 +1,6 @@
 Secrets.cs
-AndroidManifest.xml
+#AndroidManifest.xml
+keys.txt
 
 # Visual Studio directory
 .vs/

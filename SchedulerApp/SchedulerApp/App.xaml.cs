@@ -34,7 +34,7 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/MainPage?message=Hello");
+            await NavigationService.NavigateAsync("NavigationPage/SplashPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

@@ -5,6 +5,11 @@
     <UserSecretsId>d37c16d5-4318-48c9-a3c6-f35e24b461c7</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Tools\**" />
+    <EmbeddedResource Remove="Tools\**" />
+    <None Remove="Tools\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
     <None Remove="Resources\Fonts\UnicaOne-Regular.ttf" />
   </ItemGroup>
