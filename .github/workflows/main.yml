@@ -24,4 +24,4 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Build Android project
-      run: dotnet build SchedulerApp/SchedulerApp.Android/SchedulerApp.Android.csproj --verbosity:normal --configuration Release
+      run: dotnet build SchedulerApp/SchedulerApp.Android/SchedulerApp.Android.csproj --verbosity:diag --configuration Release
