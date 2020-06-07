@@ -24,4 +24,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Build Android project
-      run: dotnet build SchedulerApp.Android/SchedulerApp.Android.csproj --verbosity:d --configuration Release
+      run: |
+        ls
+        msbuild ./SchedulerApp/SchedulerApp.sln /restore
