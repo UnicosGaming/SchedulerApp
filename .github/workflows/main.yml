@@ -32,8 +32,8 @@ jobs:
           SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild ./SchedulerApp.sln /restore
         
-      - name: Generate APK
-        uses: ./build
+      - name: Generate Xamarin Form Android APK
+        uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
         with:
           args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{ env.MSBuildProject }}
         
