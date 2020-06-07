@@ -19,15 +19,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - shell: pwsh
+        
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.0
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.0
     
-    - name: Show test secret
-      run : $env:TEST_SECRET
+      - name: Show test secret
+        run: Write-Host $env:TEST_SECRET
 
     # Runs a single command using the runners shell
-    - name: Build Android project
-      run: msbuild ./SchedulerApp.sln /restore
+      - name: Build Android project
+        run: msbuild ./SchedulerApp.sln /restore
