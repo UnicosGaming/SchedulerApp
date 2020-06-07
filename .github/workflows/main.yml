@@ -33,7 +33,7 @@ jobs:
         run: msbuild ./SchedulerApp.sln /restore
         
       - name: Generate APK
-        uses: ./action
+        uses: ./build
         with:
           args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{ env.MSBuildProject }}
         
