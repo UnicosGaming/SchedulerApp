@@ -37,7 +37,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
       - name: Generate Xamarin Form Android APK
         uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
         with:
