@@ -24,6 +24,9 @@ jobs:
 
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v1.0.0
+    
+    - name: Show test secret
+      run : $env:TEST_SECRET
 
     # Runs a single command using the runners shell
     - name: Build Android project
