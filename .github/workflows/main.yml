@@ -29,4 +29,4 @@ jobs:
     - name: Build Android project
       run: |
         ls
-        msbuild ./SchedulerApp/SchedulerApp.sln /restore
+        msbuild ./SchedulerApp.sln /restore
