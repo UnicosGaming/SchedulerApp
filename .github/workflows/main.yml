@@ -19,10 +19,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - shell: pwsh
-        env:
-          TEST_SECRET: ${{ secrets.TEST_SECRET }}
-        run: Write-Host "$env:TEST_SECRET"
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -31,4 +27,7 @@ jobs:
 
     # Runs a single command using the runners shell
       - name: Build Android project
+        env:
+          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild ./SchedulerApp.sln /restore
