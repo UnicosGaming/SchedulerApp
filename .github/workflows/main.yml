@@ -22,25 +22,25 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.0.0        
 
-      - name: Build SchedulerApp Solution
-        env:
-          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
-          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
-        run: msbuild ./SchedulerApp.sln /restore
+      #- name: Build SchedulerApp Solution
+      #  env:
+      #    SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+      #    SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
+      #  run: msbuild ./SchedulerApp.sln /restore
         
       - name: List output files
-        run: ls ${{ env.MSBuildProjectDirectory }}\${{ env.OutputPath }}
+        run: ls $MSBuildProjectDirectory #${{ env.OutputPath }}
         
       - name: List keys folder
         run: |
-          ls ${{ env.USERPROFILE }}
-          ls ${{ env.USERPROFILE }}\keystores
+          ls $USERPROFILE
+          #ls $USERPROFILE \keystores
       
-      - name: JDK Keytool
-        run: ${{ env.JAVA_HOME }}\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
+      #- name: JDK Keytool
+      #  run: ${{ env.JAVA_HOME }}\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
         
-      - name: Android SDK
-        run: ${{ env.ANDROID_HOME }}\build-tools\29.0.2\zipalign.exe -f -v 4 ${{ env.MSBuildProjectDirectory }}\${{ env.OutputPath }}\com.companyname.appname.apk ${{ env.MSBuildProjectDirectory }}\${{ env.OutputPath }}\SchedulerApp.apk
+      #- name: Android SDK
+      #  run: ${{ env.ANDROID_HOME }}\build-tools\29.0.2\zipalign.exe -f -v 4 ${{ env.MSBuildProjectDirectory }}\${{ env.OutputPath }}\com.companyname.appname.apk ${{ env.MSBuildProjectDirectory }}\${{ env.OutputPath }}\SchedulerApp.apk
           
       #- name: Sign APK
       #  run: ${{ ANDROID_HOME }}\build-tools\29.0.2\apksigner.bat sign --ks "app_key" --ks-key-alias "
