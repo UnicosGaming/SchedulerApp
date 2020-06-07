@@ -12,7 +12,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # Build App
   build:
     # The type of runner that the job will run on
     runs-on: windows-latest
@@ -31,7 +31,11 @@ jobs:
           SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
           SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild ./SchedulerApp.sln /restore
-        
+  
+  # Generate APK and upload the Artifact
+  deploy:
+    runs-on: ubuntu-latest
+    steps:      
       - name: Generate Xamarin Form Android APK
         uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
         with:
