@@ -1,23 +1,18 @@
 function Get-Key {
     <#
     .SYNOPSIS
-        Returns the $key value from $file
-    .PARAMETER $file
-        File path where the keys are saved. Mandatory
-    .PAREMETER $key
+        Returns the $key value from Environment variables
+    .PAREMETER $key_name
         Name of the key. Mandatory
     .EXAMPLE
-        Get-Key file_with_keys.txt key_name
+        Get-Key key_name
     #>
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$file,
-        [Parameter(Mandatory=$true)]
-        [string]$key
+        [string]$key_name
     )
-    Get-Content $file | % { if ($_ -match $key) {$key = $_}}
 
-    return $key.split(":")[1]
+    return $([Environment]::GetEnvironmentVariable($key_name))
 }
 
 function Replace-Text{
@@ -41,15 +36,13 @@ function Replace-Text{
         [Parameter(Mandatory=$true)]
         [string]$key
     )
-    
     ((Get-Content -path $file -Raw) -replace $placeholder, $key) | Set-Content -Path $file
 }
 
-$key_file = $args[0]
-$key_name = $args[1]
-$file = $args[2]
-$placeholder = $args[3]
+$key_name = $args[0]
+$file = $args[1]
+$placeholder = $args[2]
 
-$key = Get-Key $key_file $key_name
+$key_value = Get-Key $key_name
 
-Replace-Text $file $placeholder $key
+Replace-Text $file $placeholder $key_value

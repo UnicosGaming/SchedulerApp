@@ -1,14 +1,6 @@
 ## Tools ##
 
-This folder contains the script to replace a placeholder for the API KEY in any file required and `keys.txt` file that contains the key/s needed.
-
-The file `keys.txt` is added to the .gitignore file to avoid to push to the repository.
-
-Format of the `keys.txt` file:
-
-```
-KEY1:CE92C2C8-0B39-44B1-9798-11DD379B27C0
-```
+This folder contains the script to replace a placeholder for the API KEY in any file required. The keys are storage in an Environment variable
 
 The files that need the API KEY value must have a placeholder that will be used to be replaced by the corresponding value.
 
