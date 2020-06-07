@@ -34,6 +34,7 @@ jobs:
   
   # Generate APK and upload the Artifact
   deploy:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:      
       - name: Generate Xamarin Form Android APK
