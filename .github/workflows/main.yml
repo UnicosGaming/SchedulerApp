@@ -31,7 +31,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          path: ${{ env.MSBuildProjectDirectory }}/${{ env.OutputDirectory }}/*.apk 
+          path: ${{ env.MSBuildProjectDirectory }}/${{ env.OutpuPath }}/*.apk 
        
   
   # Generate APK and upload the Artifact
