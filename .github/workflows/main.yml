@@ -38,10 +38,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Check env variables
+        run: |
+          ${{ env.MSBuildStartupDirectory }}
+          ${{ env.MSBuildProjectDirectory }}
       - name: Generate Xamarin Form Android APK
         uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
         with:
-          args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{ env.MSBuildProject }}
+          SOLUTION_NAME: ${{ env.MSBuildStartupDirectory }}
+          ANDROID_PROJECT_NAME: ${{ env.MSBuildProjectDirectory }}
+          #args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{ env.MSBuildProject }}
         
       - name: Artifacts
         run: |
