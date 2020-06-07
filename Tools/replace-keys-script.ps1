@@ -1,20 +1,3 @@
-function Get-Key {
-    <#
-    .SYNOPSIS
-        Returns the $key value from Environment variables
-    .PAREMETER $key_name
-        Name of the key. Mandatory
-    .EXAMPLE
-        Get-Key key_name
-    #>
-    Param(
-        [Parameter(Mandatory=$true)]
-        [string]$key_name
-    )
-
-    return $([Environment]::GetEnvironmentVariable($key_name))
-}
-
 function Replace-Text{
     <#
     .SYNOPSIS
@@ -39,10 +22,8 @@ function Replace-Text{
     ((Get-Content -path $file -Raw) -replace $placeholder, $key) | Set-Content -Path $file
 }
 
-$key_name = $args[0]
-$file = $args[1]
-$placeholder = $args[2]
-
-$key_value = Get-Key $key_name
+$file = $args[0]
+$placeholder = $args[1]
+$key_value = $args[2]
 
 Replace-Text $file $placeholder $key_value
