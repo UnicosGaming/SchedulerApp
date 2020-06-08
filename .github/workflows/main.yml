@@ -21,25 +21,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Setup MSBuild
-      #  uses: microsoft/setup-msbuild@v1.0.0        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.0        
 
-      #- name: Build SchedulerApp Solution
-      #  env:
-      #    SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
-      #    SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
-      #  run: msbuild ./SchedulerApp.sln /restore
+      - name: Build SchedulerApp Solution
+        env:
+          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
+        run: msbuild ./SchedulerApp.sln /restore
         
-      #- name: List output files
-      #  run: ls $MSBuildProjectDirectory #${{ env.OutputPath }}
-        
-      - name: Show Build files
-        run: |
-          ls ${{ env.HOME }}\.nuget
-          write-host WORKSPACE: $env:GITHUB_WORKSPACE
-          write-host ANDROID_HOME: $env:ANDROID_HOME
-          write-host MSBuildProjectDirectory: $env:MSBuildProjectDirectory
-          write-host OutputPath: $env:OutputPath
+      #- name: Show some env
+      #  run: |
+      #    write-host WORKSPACE: $env:GITHUB_WORKSPACE
+      #    write-host ANDROID_HOME: $env:ANDROID_HOME
+      #    write-host MSBuildProjectDirectory: $env:MSBuildProjectDirectory
+      #    write-host OutputPath: $env:OutputPath
       
       #- name: JDK Keytool
       #  run: $env.JAVA_HOME\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
@@ -53,31 +49,4 @@ jobs:
       #  uses: actions/upload-artifact@v2
       #  with:
       #    path: ${{ env.MSBuildProjectDirectory }}/${{ env.OutpuPath }}/*.apk 
-       
-  
-  # Generate APK and upload the Artifact
-  #deploy:
-  #  needs: [build]
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@v2
-  #    - name: Check env variables
-  #      run: |
-  #        ${{ env.MSBuildStartupDirectory }}
-  #        ${{ env.MSBuildProjectDirectory }}
-      #- name: Generate Xamarin Form Android APK
-      #  uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
-      #  with:
-      #    SOLUTION_NAME: ${{ env.MSBuildStartupDirectory }}
-      #    ANDROID_PROJECT_NAME: ${{ env.MSBuildProjectDirectory }}
-          #args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{ env.MSBuildProject }}
-        
-      #- name: Artifacts
-      #  run: |
-      #    mkdir -p apks
-      #    cp ${{ env.MSBuildProjectDirectory }}/bin/Debug/*.apk apks
-      #- name: Upload artifact
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: apks
-      #    path: apks
+
