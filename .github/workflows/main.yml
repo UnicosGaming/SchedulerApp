@@ -31,7 +31,7 @@ jobs:
         run: msbuild ./SchedulerApp.sln /restore /p:Configuration=Release
         #run: msbuild ./SchedulerApp.sln /t:Clean /p:Configuration=Release
       - name: Build and Sign APK
-        run: msbuild ./SchedulerApp.sln /t:SignAndroidPackage /p:Configuration=Release
+        run: msbuild SchedulerApp\SchedulerApp.Android\SchedulerApp.Android.csproj /t:SignAndroidPackage /p:Configuration=Release /p:OutputPath=SchedulerApp\SchedulerApp.Android\bin\Release\
         
       #- name: Generate APK
       #  run: msbuild ./SchedulerApp.sln /t:PackageForAndroid /p:Configuration=Release
