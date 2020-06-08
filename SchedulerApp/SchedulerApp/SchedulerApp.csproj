@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>d37c16d5-4318-48c9-a3c6-f35e24b461c7</UserSecretsId>
+    <Company>Unicos Gaming</Company>
+    <Authors>Unicos Gaming</Authors>
+    <Product>Scheduler App</Product>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Tools\**" />
