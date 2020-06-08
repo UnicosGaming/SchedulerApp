@@ -11,7 +11,7 @@ on:
     branches: [ master ]
 
 env:
-  USER_PROFILE:  ${{ HOME }}
+  USER_PROFILE:  $HOME
 jobs:
   # Build App
   build:
