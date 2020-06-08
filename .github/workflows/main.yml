@@ -1,6 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -15,7 +13,6 @@ jobs:
   build:
     runs-on: windows-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/checkout@v2
 
@@ -28,13 +25,11 @@ jobs:
           SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild ./SchedulerApp.sln /restore /p:Configuration=Release
 
-      - name: Build and Sign APK
+      - name: Create and Sign the APK
+        env:
+          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild SchedulerApp\SchedulerApp.Android\SchedulerApp.Android.csproj /t:SignAndroidPackage /p:Configuration=Release /p:OutputPath=bin\Release\
-        
-      #- name: Content 1
-      #  run: ls SchedulerApp\SchedulerApp.Android
-      #- name: Content 2
-      #  run: ls SchedulerApp\SchedulerApp.Android\bin\Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
