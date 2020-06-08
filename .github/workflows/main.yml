@@ -12,6 +12,10 @@ jobs:
   # Build App
   build:
     runs-on: windows-latest
+    
+    env:
+      SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+      SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
 
     steps:
       - uses: actions/checkout@v2
@@ -20,15 +24,9 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.0        
 
       - name: Build SchedulerApp Solution
-        env:
-          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
-          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild ./SchedulerApp.sln /restore /p:Configuration=Release
 
       - name: Create and Sign the APK
-        env:
-          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
-          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
         run: msbuild SchedulerApp\SchedulerApp.Android\SchedulerApp.Android.csproj /t:SignAndroidPackage /p:Configuration=Release /p:OutputPath=bin\Release\
 
       - name: Upload artifact
