@@ -35,7 +35,7 @@ jobs:
         
       - name: List keys folder
         run: |
-          ${{env.USER_PROFILE}}
+          echo "${{ env.USER_PROFILE }}"
           # ls $USERPROFILE \keystores
       
       #- name: JDK Keytool
