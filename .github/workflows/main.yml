@@ -39,6 +39,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: testApp.apk
-          path: SchedulerApp\SchedulerApp.Android\bin\Release\com.companyname.appname-Signed.apk 
+          name: SchedulerApp.apk
+          path: SchedulerApp\SchedulerApp.Android\bin\Release\es.unicosgaming.schedulerapp-Signed.apk 
 
