@@ -37,7 +37,7 @@ jobs:
         run: |
           ls ${{ $env:HOME }}\.nuget
           write-host WORKSPACE: $env:GITHUB_WORKSPACE
-          write-host ANDROID_HOME: $env:ANDROID_HOME
+          write-host ANDROID_HOME:  $env:ANDROID_HOME
           write-host MSBuildProjectDirectory: $env:MSBuildProjectDirectory
           write-host OutputPath: $env:OutputPath
       
