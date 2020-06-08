@@ -112,7 +112,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\Tools\replace-keys-script.ps1 $(ProjectDir)Properties\AndroidManifest.xml "`#INSERT_MsalID_HERE`#" $env:SCHEDULER_APP_MSAL_KEY</PreBuildEvent>
+    <PreBuildEvent>powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Properties\AndroidManifest.xml "`#INSERT_MsalID_HERE`#" $env:SCHEDULER_APP_MSAL_KEY</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>git checkout $(ProjectDir)Properties\AndroidManifest.xml</PostBuildEvent>
