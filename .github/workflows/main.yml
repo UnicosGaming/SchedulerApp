@@ -10,8 +10,8 @@ on:
   pull_request:
     branches: [ master ]
 
-env:
-  USER_PROFILE:  $MSBuildProjectDirectory
+#env:
+#  USER_PROFILE:  $MSBuildProjectDirectory
 jobs:
   # Build App
   build:
@@ -35,7 +35,7 @@ jobs:
         
       - name: List keys folder
         run: |
-          echo "${{ env.USER_PROFILE }}"
+          echo $HOME
           # ls $USERPROFILE \keystores
       
       #- name: JDK Keytool
