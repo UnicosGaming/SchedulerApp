@@ -36,7 +36,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="powershell.exe -ExecutionPolicy Unrestricted ..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientID`#&quot; $env:SCHEDULER_APP_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#MsalID`#&quot; $env:SCHEDULER_APP_MSAL_KEY" />
+    <Exec Command="powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientID`#&quot; $env:SCHEDULER_APP_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(SolutionDir)Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#MsalID`#&quot; $env:SCHEDULER_APP_MSAL_KEY" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="git checkout $(ProjectDir)Configuration\Secrets.cs" />
