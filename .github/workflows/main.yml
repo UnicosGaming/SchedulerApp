@@ -28,8 +28,9 @@ jobs:
         env:
           SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
           SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
-        #run: msbuild ./SchedulerApp.sln /restore /p:Configuration=Release
+        run: msbuild ./SchedulerApp.sln /restore /p:Configuration=Release
         #run: msbuild ./SchedulerApp.sln /t:Clean /p:Configuration=Release
+      - name: Build and Sign APK
         run: msbuild ./SchedulerApp.sln /t:SignAndroidPackage /p:Configuration=Release
         
       #- name: Generate APK
