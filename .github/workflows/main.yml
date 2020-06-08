@@ -21,29 +21,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      #- name: Setup MSBuild
-      #  uses: microsoft/setup-msbuild@v1.0.0        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.0        
 
-      #- name: Build SchedulerApp Solution
-      #  env:
-      #    SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
-      #    SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
-      #  run: msbuild ./SchedulerApp.sln /restore
+      - name: Build SchedulerApp Solution
+        env:
+          SCHEDULER_APP_KEY: ${{ secrets.SCHEDULER_APP_KEY }}
+          SCHEDULER_APP_MSAL_KEY: ${{ secrets.SCHEDULER_APP_MSAL_KEY }}
+        run: msbuild ./SchedulerApp.sln /restore
         
       #- name: List output files
       #  run: ls $MSBuildProjectDirectory #${{ env.OutputPath }}
         
       - name: Show env variables
+        run: ls $HOME
+        
+      - name: Show Build files
         run: |
-          $HOME
-          $MSBuildProjectDirectory
-          $MSBuildStartupDirectory
-          $GITHUB_WORKSPACE
-          $USERPROFILE
-          $JAVA_HOME
-          $OutputPath
-          $ANDROID_HOME
-          $HOME
+          ls $GITHUB_WORKSPACE\SchedulerApp.Android\bin
+          ls $GITHUB_WORKSPACE\SchedulerApp.Android\bin\Debug
+          ls $GITHUB_WORKSPACE\SchedulerApp.Android\bin\Release          
       
       #- name: JDK Keytool
       #  run: ${{ env.JAVA_HOME }}\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
