@@ -35,7 +35,7 @@ jobs:
         
       - name: Show Build files
         run: |
-          ls "$HOME"\.nuget
+          ls ${{ HOME }}\.nuget
           write-host WORKSPACE: $env:GITHUB_WORKSPACE
           write-host ANDROID_HOME: $env:ANDROID_HOME
           write-host MSBuildProjectDirectory: $env:MSBuildProjectDirectory
