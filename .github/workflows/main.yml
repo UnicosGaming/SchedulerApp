@@ -31,7 +31,7 @@ jobs:
         run: msbuild ./SchedulerApp.sln /restore
         
       - name: Show some env
-        run: ls SchedulerApp\SchedulerApp.Android\bin
+        run: ls SchedulerApp\SchedulerApp.Android\bin\Debug
       #    write-host WORKSPACE: $env:GITHUB_WORKSPACE
       #    write-host ANDROID_HOME: $env:ANDROID_HOME
       #    write-host MSBuildProjectDirectory: $env:MSBuildProjectDirectory
