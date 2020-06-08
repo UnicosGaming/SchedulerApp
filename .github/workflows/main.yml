@@ -36,10 +36,10 @@ jobs:
       - name: Show Build files
         run: |
           write-host $HOME
-          write-host ${{ env.GITHUB_WORKSPACE }}
-          write-host $env.GITHUB_WORKSPACE
-          write-host $GITHUB_WORKSPACE
           write-host $env:GITHUB_WORKSPACE
+          write-host $env:ANDROID_HOME
+          write-host $env:MSBuildProjectDirectory
+          write-host $env:OutputPath
       
       #- name: JDK Keytool
       #  run: ${{ env.JAVA_HOME }}\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
