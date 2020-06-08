@@ -35,11 +35,11 @@ jobs:
         
       - name: Show Build files
         run: |
-          echo $HOME
-          echo ${{ env.GITHUB_WORKSPACE }}
-          echo $env.GITHUB_WORKSPACE
-          echo $GITHUB_WORKSPACE
-          echo $env:GITHUB_WORKSPACE
+          write-host $HOME
+          write-host ${{ env.GITHUB_WORKSPACE }}
+          write-host $env.GITHUB_WORKSPACE
+          write-host $GITHUB_WORKSPACE
+          write-host $env:GITHUB_WORKSPACE
       
       #- name: JDK Keytool
       #  run: ${{ env.JAVA_HOME }}\bin\keytool -genkey -v -keystore -alias "app_key" -keylag RSA -keysize 2048 -validity 10000
