@@ -29,9 +29,14 @@ namespace SchedulerApp.ViewModels
         {
             _dataService = dataService;
 
-            ItemTappedCommand = new DelegateCommand<Schedule>((x) => Debug.WriteLine(x.Competition), (x) => true);
+            ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x), (x) => true);
         }
 
+
+        /// <summary>
+        /// Initialize the list with the schedules
+        /// </summary>
+        /// <param name="parameters"></param>
         public override async void Initialize(INavigationParameters parameters)
         {
             try
@@ -49,8 +54,15 @@ namespace SchedulerApp.ViewModels
             {
                 IsTaskRunning = false;
             }
+        }
 
-
+        public async void EditSchedule(Schedule schedule)
+        {
+            if(schedule != null)
+            {
+                var parameters = new NavigationParameters() { { "model", schedule } };
+                await NavigationService.NavigateAsync("SchedulePage", parameters);
+            }
         }
     }
 }

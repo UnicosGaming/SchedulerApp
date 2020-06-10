@@ -15,6 +15,7 @@ using SchedulerApp.Services.DataService;
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
 [assembly: ExportFont("Roboto-Regular.ttf")]
+[assembly: ExportFont("Audiowide-Regular.ttf")]
 namespace SchedulerApp
 {
     public partial class App
@@ -34,7 +35,8 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/SplashPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            //await NavigationService.NavigateAsync("MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -47,6 +49,7 @@ namespace SchedulerApp
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<SchedulePage, SchedulePageViewModel>();
         }
     }
 }

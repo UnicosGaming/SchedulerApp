@@ -5,14 +5,15 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d"
 			 xmlns:prism="http://prismlibrary.com"
-			 xmlns:coverters="clr-namespace:SchedulerApp.Converters"
+			 xmlns:converters="clr-namespace:SchedulerApp.Converters"
 			 xmlns:templates="clr-namespace:SchedulerApp.Views.Templates"
 			 prism:ViewModelLocator.AutowireViewModel="True"
-			 x:Class="SchedulerApp.Views.MainPage">
+			 x:Class="SchedulerApp.Views.MainPage"
+			 Visual="Material">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
-			<coverters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+			<converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
 		</ResourceDictionary>
 	</ContentPage.Resources>
 
@@ -21,8 +22,7 @@
 		<ListView x:Name="lstSchedules"
 				  ItemsSource="{Binding Items}"
 				  CachingStrategy="RecycleElement"
-				  HasUnevenRows="True"
-				  SeparatorColor="{StaticResource ListItemSeparatorColor}">
+				  HasUnevenRows="True">
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell Tapped="ViewCell_Tapped">
