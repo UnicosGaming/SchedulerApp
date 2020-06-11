@@ -6,8 +6,10 @@ using SchedulerApp.Services.DataService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 
@@ -15,15 +17,19 @@ namespace SchedulerApp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        ObservableCollection<Schedule> _items;
         private readonly IDataService _dataService;
+        private Schedule _originalItem;
 
+        public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
+
+        ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
         }
-        public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
+
+
 
         public MainPageViewModel(INavigationService navigationService, IDataService dataService) : base(navigationService)
         {
@@ -31,7 +37,6 @@ namespace SchedulerApp.ViewModels
 
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x), (x) => true);
         }
-
 
         /// <summary>
         /// Initialize the list with the schedules
@@ -58,9 +63,14 @@ namespace SchedulerApp.ViewModels
 
         public async void EditSchedule(Schedule schedule)
         {
-            if(schedule != null)
+            _originalItem = schedule.Clone();
+
+            if (schedule != null)
             {
-                var parameters = new NavigationParameters() { { "model", schedule } };
+                var parameters = new NavigationParameters() {
+                    { "model", schedule },
+                    {"original", _originalItem }
+                };
                 await NavigationService.NavigateAsync("SchedulePage", parameters);
             }
         }

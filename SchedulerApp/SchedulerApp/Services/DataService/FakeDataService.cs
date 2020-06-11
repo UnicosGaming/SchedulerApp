@@ -1,6 +1,7 @@
 ﻿using SchedulerApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,12 @@ namespace SchedulerApp.Services.DataService
             return Task.FromResult(items as IEnumerable<Schedule>);
         }
         public Task<Schedule> Get(string id) => throw new NotImplementedException();
-        public Task<Schedule> Save(Schedule item) => throw new NotImplementedException();
+        public Task<Schedule> Save(Schedule item)
+        {
+            Debug.WriteLine($"[DATA SERVICE] Save {item.Id}");
+
+            return Task.FromResult(item);
+        }
 
         private void InitializeFakeData()
         {

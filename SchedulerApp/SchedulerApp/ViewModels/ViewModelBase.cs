@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SchedulerApp.ViewModels
 {
@@ -33,7 +34,7 @@ namespace SchedulerApp.ViewModels
 
         public virtual void Initialize(INavigationParameters parameters)
         {
-            
+
         }
 
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
@@ -50,7 +51,5 @@ namespace SchedulerApp.ViewModels
         {
 
         }
-
-        
     }
 }

@@ -6,10 +6,10 @@
 			 x:Class="SchedulerApp.Views.SchedulePage"
 			 Visual="Material">
 
-	<!--<ContentPage.ToolbarItems>
-		<ToolbarItem Text="&#x1F4BE;" />
+	<ContentPage.ToolbarItems>
+		<ToolbarItem IconImageSource="baseline_save_white_24.jpg" Command="{Binding SaveCommand}" />
 		
-	</ContentPage.ToolbarItems>-->
+	</ContentPage.ToolbarItems>
 
 	<StackLayout>
 		<Entry Text="{Binding Schedule.Competition}"
