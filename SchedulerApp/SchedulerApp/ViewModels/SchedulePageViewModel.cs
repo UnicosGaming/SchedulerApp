@@ -58,11 +58,10 @@ namespace SchedulerApp.ViewModels
         {
             _originalItem = parameters["original"] as Schedule;
 
-            // Save the the time value before setting the Schedule property because after that the value will lose.
-            _time = (parameters["model"] as Schedule).Date.TimeOfDay;
-
-            Schedule = parameters["model"] as Schedule;
-            Time = _time;
+            if (_originalItem == null)
+                SetScheduleForAddition();
+            else
+                SetScheduleForEdition(parameters["model"] as Schedule);
         }
 
         /// <summary>
@@ -82,16 +81,26 @@ namespace SchedulerApp.ViewModels
             }
         }
 
+        private void SetScheduleForAddition() => Schedule = new Schedule();
+
+        private void SetScheduleForEdition(Schedule schedule)
+        {
+            // Save the the time value before setting the Schedule property because after that the value will lose.
+            _time = schedule.Date.TimeOfDay;
+
+            Schedule = schedule;
+            Time = _time;
+        }
+
         private async Task SaveAsync()
         {
-            // Save data
-            Debug.WriteLine("Saving...");
             await _dataService.Save(Schedule);
 
             // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
-            _originalItem = Schedule; 
+            _originalItem = Schedule;
 
-            await NavigationService.GoBackAsync();
+            var parameter = new NavigationParameters(){ { "model", Schedule} };
+            await NavigationService.GoBackAsync(parameter);
         }
     }
 }

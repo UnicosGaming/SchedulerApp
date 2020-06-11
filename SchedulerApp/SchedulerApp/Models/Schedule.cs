@@ -7,8 +7,6 @@ namespace SchedulerApp.Models
 {
     public class Schedule : ModelBase<Schedule>
     {
-        public string Id { get; set; }
-
         private DateTime _date;
         public DateTime Date
         {
@@ -30,6 +28,13 @@ namespace SchedulerApp.Models
             set => SetProperty(ref _stream, value);
         }
 
+        // CTORs
+        public Schedule() : base()
+        {
+            this.Date = DateTime.UtcNow;
+        }
+        public Schedule(string id) : base(id) { }
+
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -45,6 +50,20 @@ namespace SchedulerApp.Models
                 (Date.Year == s.Date.Year) &&
                 (Date.Hour == s.Date.Hour) &&
                 (Date.Minute == s.Date.Minute);
+        }
+
+        public override Schedule CopyTo(Schedule target)
+        {
+            target.Competition = this.Competition;
+            target.Stream = this.Stream;
+            target.Date = new DateTime(this.Date.Year,
+                                        this.Date.Month,
+                                        this.Date.Day,
+                                        this.Date.Hour,
+                                        this.Date.Minute,
+                                        this.Date.Second);
+
+            return target;
         }
 
     }

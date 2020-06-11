@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
+using System.Xml.Schema;
 
 namespace SchedulerApp.ViewModels
 {
@@ -21,6 +22,7 @@ namespace SchedulerApp.ViewModels
         private Schedule _originalItem;
 
         public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
+        public DelegateCommand AddCommand { get; private set; }
 
         ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
@@ -29,13 +31,12 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _items, value);
         }
 
-
-
         public MainPageViewModel(INavigationService navigationService, IDataService dataService) : base(navigationService)
         {
             _dataService = dataService;
 
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x), (x) => true);
+            AddCommand = new DelegateCommand(() => NavigationService.NavigateAsync("SchedulePage"));
         }
 
         /// <summary>
@@ -59,6 +60,14 @@ namespace SchedulerApp.ViewModels
             {
                 IsTaskRunning = false;
             }
+        }
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            var schedule = parameters["model"] as Schedule;
+
+            if (schedule != null)
+                Items.Add(schedule);
         }
 
         public async void EditSchedule(Schedule schedule)
