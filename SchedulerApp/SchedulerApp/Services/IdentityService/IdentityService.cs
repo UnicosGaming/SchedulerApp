@@ -104,7 +104,10 @@ namespace SchedulerApp.Services.IdentityService
             {
                 //get data from API
                 HttpClient client = new HttpClient();
+                // Request user info
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "https://graph.microsoft.com/v1.0/me");
+                // Request user groups
+                //HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "https://graph.microsoft.com/v1.0/me/memberOf");
                 message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await client.SendAsync(message);
                 string responseString = await response.Content.ReadAsStringAsync();

@@ -48,16 +48,16 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        private void ValidationOk()
+        private async void ValidationOk()
         {
             IsTaskRunning = false;
-            _navigationService.NavigateAsync("/MainPage");
+            await _navigationService.NavigateAsync("/MainPage");
         }
 
-        private void ValidationError()
+        private async void ValidationError()
         {
             IsTaskRunning = false;
-            _navigationService.NavigateAsync("/LoginPage");
+            await _navigationService.NavigateAsync("/LoginPage");
         }
 
 
