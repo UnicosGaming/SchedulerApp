@@ -98,6 +98,7 @@ namespace SchedulerApp.ViewModels
 
         private async Task SaveAsync()
         {
+            //TODO: Implement validations
             if (string.IsNullOrEmpty(Schedule.Competition))
             {
                 await _pageDialogService.DisplayAlertAsync("Competition is empty", "The Competiton cannot be empty", "Ok");
