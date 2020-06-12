@@ -91,20 +91,28 @@ namespace SchedulerApp.ViewModels
         {
             // Save the the time value before setting the Schedule property because after that the value will lose.
             _time = schedule.Date.TimeOfDay;
-            
+
             Schedule = schedule;
             Time = _time;
         }
 
         private async Task SaveAsync()
         {
-            await _dataService.Save(Schedule);
+            if (string.IsNullOrEmpty(Schedule.Competition))
+            {
+                await _pageDialogService.DisplayAlertAsync("Competition is empty", "The Competiton cannot be empty", "Ok");
+            }
+            else
+            {
+                await _dataService.Save(Schedule);
 
-            // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
-            _originalItem = Schedule;
+                // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
+                _originalItem = Schedule;
 
-            var parameter = new NavigationParameters(){ { "model", Schedule} };
-            await NavigationService.GoBackAsync(parameter);
+                var parameter = new NavigationParameters() { { "model", Schedule } };
+                await NavigationService.GoBackAsync(parameter);
+            }
+
         }
     }
 }
