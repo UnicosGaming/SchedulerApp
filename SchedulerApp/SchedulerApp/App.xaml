@@ -10,6 +10,7 @@
 		<!-- Colors -->
 		<Color x:Key="BlackColor">#212121</Color>
 		<Color x:Key="WhiteColor">#FAFAFA</Color>
+		<Color x:Key="RedColor">#E30425</Color>
 		<Color x:Key="AccentColor">#c5b35a</Color>
 		<Color x:Key="FontHeadColor">#c5b35a</Color>
 		<Color x:Key="ActivityIndicatorColor">#c5b35a</Color>

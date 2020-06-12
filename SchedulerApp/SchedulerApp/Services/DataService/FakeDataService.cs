@@ -16,10 +16,19 @@ namespace SchedulerApp.Services.DataService
         {
             InitializeFakeData();
         }
-        public Task Delete(string id) => throw new NotImplementedException();
+        public void Delete(string id)
+        {
+            var item = items.Find(x => x.Id == id);
+
+            if (item != null)
+            {
+                items.Remove(item);
+            }
+        }
         public Task<IEnumerable<Schedule>> Get()
         {
-            return Task.FromResult(items as IEnumerable<Schedule>);
+            var results = items.FindAll(x => x.Date >= DateTime.UtcNow);
+            return Task.FromResult( results as IEnumerable<Schedule>);
         }
         public Task<Schedule> Get(string id) => throw new NotImplementedException();
         public Task<Schedule> Save(Schedule schedule)
@@ -49,7 +58,7 @@ namespace SchedulerApp.Services.DataService
                 new Schedule(Guid.NewGuid().ToString())
                 {
                     Competition = "Competition B",
-                    Date = new DateTime(2019,9,15, 20,0,0),
+                    Date = new DateTime(2020,9,15, 20,0,0),
                     Stream = "https://twitch.tv/UnicosGaming"
                 },
                 new Schedule(Guid.NewGuid().ToString())
@@ -61,7 +70,7 @@ namespace SchedulerApp.Services.DataService
                 new Schedule(Guid.NewGuid().ToString())
                 {
                     Competition = "Competition D",
-                    Date = new DateTime(2019,9,30, 20,0,0),
+                    Date = new DateTime(2020,12,30, 20,0,0),
                     Stream = "https://twitch.tv/UnicosGaming"
                 }
             };

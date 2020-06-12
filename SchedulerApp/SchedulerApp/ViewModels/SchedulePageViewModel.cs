@@ -81,13 +81,17 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        private void SetScheduleForAddition() => Schedule = new Schedule();
+        private void SetScheduleForAddition()
+        {
+            _originalItem = new Schedule();
+            Schedule = _originalItem;
+        }
 
         private void SetScheduleForEdition(Schedule schedule)
         {
             // Save the the time value before setting the Schedule property because after that the value will lose.
             _time = schedule.Date.TimeOfDay;
-
+            
             Schedule = schedule;
             Time = _time;
         }

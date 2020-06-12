@@ -11,6 +11,6 @@ namespace SchedulerApp.Services.DataService
         Task<IEnumerable<Schedule>> Get();
         Task<Schedule> Get(string id);
         Task<Schedule> Save(Schedule item);
-        Task Delete(string id);
+        void Delete(string id);
     }
 }

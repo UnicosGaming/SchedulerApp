@@ -26,7 +26,28 @@
 			<ListView.ItemTemplate>
 				<DataTemplate>
 					<ViewCell Tapped="ViewCell_Tapped">
-						<templates:ScheduleItemTemplate />
+						<SwipeView>
+							<!--<SwipeView.RightItems>
+								<SwipeItems Mode="Reveal">
+									<SwipeItem Text="Delete" IconImageSource="baseline_delete_forever_white_24.png"
+											   BackgroundColor="{StaticResource RedColor}"
+											   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+											   CommandParameter="{Binding .}" />
+								</SwipeItems>
+							</SwipeView.RightItems>-->
+
+							<SwipeView.LeftItems>
+								<SwipeItems Mode="Execute">
+									<SwipeItem Text="Delete"
+											   IconImageSource="baseline_delete_forever_white_24.png"
+											   BackgroundColor="{StaticResource RedColor}"
+											   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+											   CommandParameter="{Binding .}" />
+								</SwipeItems>
+							</SwipeView.LeftItems>
+
+							<templates:ScheduleItemTemplate />
+						</SwipeView>
 					</ViewCell>
 				</DataTemplate>
 			</ListView.ItemTemplate>

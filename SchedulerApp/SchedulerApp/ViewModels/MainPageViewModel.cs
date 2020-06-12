@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
 using System;
@@ -18,11 +19,13 @@ namespace SchedulerApp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
         private Schedule _originalItem;
 
         public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
+        public DelegateCommand<Schedule> DeleteCommand { get; private set; }
 
         ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
@@ -31,12 +34,14 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _items, value);
         }
 
-        public MainPageViewModel(INavigationService navigationService, IDataService dataService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) : base(navigationService)
         {
+            _pageDialogService = pageDialogService;
             _dataService = dataService;
 
-            ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x), (x) => true);
+            ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
             AddCommand = new DelegateCommand(() => NavigationService.NavigateAsync("SchedulePage"));
+            DeleteCommand = new DelegateCommand<Schedule>((x) => DeleteSchedule(x));
         }
 
         /// <summary>
@@ -70,7 +75,7 @@ namespace SchedulerApp.ViewModels
                 Items.Add(schedule);
         }
 
-        public async void EditSchedule(Schedule schedule)
+        private async void EditSchedule(Schedule schedule)
         {
             _originalItem = schedule.Clone();
 
@@ -81,6 +86,17 @@ namespace SchedulerApp.ViewModels
                     {"original", _originalItem }
                 };
                 await NavigationService.NavigateAsync("SchedulePage", parameters);
+            }
+        }
+
+        private async void DeleteSchedule(Schedule schedule)
+        {
+            var answer = await _pageDialogService.DisplayActionSheetAsync($"Delete {schedule.Competition}", "No", "Yes");
+
+            if (answer.Equals("Yes"))
+            {
+                _dataService.Delete(schedule.Id);
+                Items.Remove(schedule);
             }
         }
     }
