@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SchedulerApp.Models
 {
-    public class Schedule : ModelBase<Schedule>
+    public class Schedule : ModelBase<Schedule>, ICopiable<Schedule>
     {
         private DateTime _date;
         public DateTime Date
@@ -52,7 +52,7 @@ namespace SchedulerApp.Models
                 (Date.Minute == s.Date.Minute);
         }
 
-        public override Schedule CopyTo(Schedule target)
+        public Schedule CopyTo(Schedule target)
         {
             target.Competition = this.Competition;
             target.Stream = this.Stream;

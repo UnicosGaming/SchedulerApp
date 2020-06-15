@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using SchedulerApp.Models;
 using SchedulerApp.Services.IdentityService;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace SchedulerApp.ViewModels
             _navigationService = navigationService;
             _identityService = identityService;
 
-            MessagingCenter.Subscribe<IIdentityService>(this, "validation_ok", (_) => { ValidationOk(); });
+            MessagingCenter.Subscribe<IIdentityService, User>(this, "validation_ok", (_, user) => { ValidationOk(user); });
             MessagingCenter.Subscribe<IIdentityService>(this, "login_silent_error", (_) => { ValidationError(); });
 
             TryValidate();
@@ -48,10 +49,11 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        private async void ValidationOk()
+        private async void ValidationOk(User userInfo)
         {
             IsTaskRunning = false;
-            await _navigationService.NavigateAsync("/MainPage");
+            var param = new NavigationParameters() { { "user", userInfo } };
+            await _navigationService.NavigateAsync("/MainPage", param);
         }
 
         private async void ValidationError()

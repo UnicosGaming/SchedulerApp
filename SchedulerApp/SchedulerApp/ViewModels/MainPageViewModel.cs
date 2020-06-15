@@ -22,10 +22,18 @@ namespace SchedulerApp.ViewModels
         private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
         private Schedule _originalItem;
+        
 
         public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
         public DelegateCommand<Schedule> DeleteCommand { get; private set; }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set => SetProperty(ref _currentUser, value);
+        }
 
         ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
@@ -54,6 +62,12 @@ namespace SchedulerApp.ViewModels
             {
                 IsTaskRunning = true;
 
+                // User Info
+                var user = parameters["user"] as User;
+                if (user != null)
+                    _currentUser = user;
+
+                // Load schedules
                 var schedules = await _dataService.Get();
                 Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
             }

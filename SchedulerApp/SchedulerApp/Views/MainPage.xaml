@@ -9,13 +9,18 @@
 			 xmlns:templates="clr-namespace:SchedulerApp.Views.Templates"
 			 prism:ViewModelLocator.AutowireViewModel="True"
 			 x:Class="SchedulerApp.Views.MainPage"
-			 Visual="Material">
+			 Visual="Material"
+			 NavigationPage.TitleView="{Binding CurrentUser.Name}">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
 			<converters:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
 		</ResourceDictionary>
 	</ContentPage.Resources>
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem Text="Hello" />
+	</ContentPage.ToolbarItems>
 
 	<AbsoluteLayout HorizontalOptions="CenterAndExpand"
 				 VerticalOptions="CenterAndExpand">

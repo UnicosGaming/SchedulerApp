@@ -26,13 +26,6 @@ namespace SchedulerApp.Models
         /// <returns>Schedule object</returns>
         public virtual T Clone() => (T)this.MemberwiseClone();
 
-        /// <summary>
-        /// Copy the properties from the current object to the "target" object
-        /// </summary>
-        /// <param name="target">Model object to copy the values</param>
-        /// <returns>T target with the values of the original object</returns>
-        public abstract T CopyTo(T target);
-
 
     }
 }

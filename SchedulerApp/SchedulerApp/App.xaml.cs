@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 using SchedulerApp.Configuration;
 using System.IO;
 using SchedulerApp.Services.DataService;
+using Prism.Unity;
+using SchedulerApp.Services.Request;
+using SchedulerApp.Services.UserService;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
@@ -44,6 +47,8 @@ namespace SchedulerApp
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
+            containerRegistry.RegisterSingleton<IRequestService, RequestService>();
+            containerRegistry.Register<IUserService, UserService>(); // Transient registration
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
