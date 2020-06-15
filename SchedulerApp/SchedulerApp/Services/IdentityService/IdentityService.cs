@@ -96,7 +96,7 @@ namespace SchedulerApp.Services.IdentityService
                 try
                 {
                     //var content = await GetHttpContentWithTokenAsync(authResult.AccessToken);
-                    var userInfo = await _userService.GetUserInfo(authResult.AccessToken);
+                    var userInfo = await _userService.GetUserInfoAsync(authResult.AccessToken);
                     //var values = JObject.Parse(content);
                     //if ((string)values["odata.error"]["code"] == "Authentication_ExpiredToken")
                     //{

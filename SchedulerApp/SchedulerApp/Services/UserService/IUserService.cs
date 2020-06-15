@@ -8,6 +8,6 @@ namespace SchedulerApp.Services.UserService
 {
     public interface IUserService
     {
-        Task<User> GetUserInfo(string token);
+        Task<User> GetUserInfoAsync(string token);
     }
 }

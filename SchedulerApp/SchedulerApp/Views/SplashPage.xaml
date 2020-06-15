@@ -7,12 +7,13 @@
 
 	<ContentPage.Content>
 		<StackLayout>
-			<Label Text="Sheduler App"
+			<Label Text="Splash" />
+			<Image Source="logo.png"
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />
 
 			<ActivityIndicator x:Name="aiDefault"
-							   VerticalOptions="CenterAndExpand"
+							   VerticalOptions="End"
 							   HorizontalOptions="CenterAndExpand"
 							   IsRunning="{Binding IsTaskRunning}"/>
 		</StackLayout>

@@ -81,7 +81,7 @@ namespace SchedulerApp.ViewModels
                 if (user != null)
                 {
                     _currentUser = user;
-                    HeaderText = $"Hello {user.Name}";
+                    HeaderText = $"Welcome {user.Name} [{user.Group.Name}]";
 
                 }
 
