@@ -7,20 +7,42 @@
 			 Visual="Material">
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem IconImageSource="baseline_save_white_24.jpg" Command="{Binding SaveCommand}" />
-		
+		<ToolbarItem IconImageSource="baseline_save_white_24.jpg"
+					 Command="{Binding SaveCommand}" />
+
 	</ContentPage.ToolbarItems>
 
-	<StackLayout>
-		<Entry Text="{Binding Schedule.Competition}"
+	<Grid HorizontalOptions="FillAndExpand">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="0"
+			   Text="{Binding Schedule.Competition}"
 			   Placeholder="Competition" />
-		<Entry Text="{Binding Schedule.Stream}"
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="1"
+			   Text="{Binding Schedule.Stream}"
 			   Placeholder="Stream URL" />
-		<DatePicker Date="{Binding Schedule.Date}"
-					Format="dd-MMM-yyyy" />
-		<TimePicker Time="{Binding Time}"
-					Format="HH:mm" />
+		<DatePicker Grid.Column="0"
+					Grid.Row="2"
+					Date="{Binding Schedule.Date}"
+					Format="dd-MMM-yyyy"
+					HorizontalOptions="FillAndExpand" />
+		<TimePicker Grid.Column="1"
+					Grid.Row="2"
+					Time="{Binding Time}"
+					Format="HH:mm"
+					HorizontalOptions="FillAndExpand" />
 
-
-	</StackLayout>
+	</Grid>
 </ContentPage>

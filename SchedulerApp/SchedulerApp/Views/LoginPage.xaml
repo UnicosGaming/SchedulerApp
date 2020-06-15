@@ -8,7 +8,7 @@
 
 	<ContentPage.Content>
 		<StackLayout>
-			<Label Text="Login process"
+			<Image Source="logo.png"
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />
 
@@ -17,6 +17,11 @@
 					Text="Log In"
 					VerticalOptions="End"
 					HorizontalOptions="FillAndExpand" />
+
+			<ActivityIndicator x:Name="aiDefault"
+							   VerticalOptions="CenterAndExpand"
+							   HorizontalOptions="CenterAndExpand"
+							   IsRunning="{Binding IsTaskRunning}" />
 		</StackLayout>
 		
 	</ContentPage.Content>

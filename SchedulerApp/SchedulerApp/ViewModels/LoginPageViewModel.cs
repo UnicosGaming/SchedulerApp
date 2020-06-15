@@ -40,21 +40,26 @@ namespace SchedulerApp.ViewModels
 
         private async Task Login()
         {
-            Debug.WriteLine("### Login ###");
-            if (_unityContainer.IsRegistered<IParentWindowProvider>())
+            try
             {
-                Debug.WriteLine("### Is Registered ###");
-                var parentPovider = _unityContainer.Resolve<IParentWindowProvider>();
+                IsTaskRunning = true;
 
-                try
+                Debug.WriteLine("### Login ###");
+                if (_unityContainer.IsRegistered<IParentWindowProvider>())
                 {
+                    Debug.WriteLine("### Is Registered ###");
+                    var parentPovider = _unityContainer.Resolve<IParentWindowProvider>();
+
                     await _identityService.LoginAsync(parentPovider.Parent);
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("### Login Error ###");
-                }
-
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("### Login Error ###");
+            }
+            finally
+            {
+                IsTaskRunning = false;
             }
         }
 

@@ -41,6 +41,7 @@ namespace SchedulerApp.ViewModels
             try
             {
                 IsTaskRunning = true;
+
                 _identityService.LoginSilentAsync();
             }
             catch (Exception ex)
