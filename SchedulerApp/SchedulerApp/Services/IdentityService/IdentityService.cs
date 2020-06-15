@@ -73,10 +73,14 @@ namespace SchedulerApp.Services.IdentityService
                 MessagingCenter.Send<IIdentityService>(this, "login_silent_error");
             }
         }
-        public Task LogoutAsync()
+        public async Task LogoutAsync()
         {
             Debug.WriteLine("### LogoutAsync ###");
-            throw new NotImplementedException();
+            while (_accounts.Any())
+            {
+                await PCA.RemoveAsync(_accounts.FirstOrDefault());
+                _accounts = await PCA.GetAccountsAsync();
+            }
         }
 
         private async void LoadAccounts()

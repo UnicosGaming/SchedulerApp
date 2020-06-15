@@ -53,7 +53,7 @@ namespace SchedulerApp.ViewModels
         {
             IsTaskRunning = false;
             var param = new NavigationParameters() { { "user", userInfo } };
-            await _navigationService.NavigateAsync("/MainPage", param);
+            await _navigationService.NavigateAsync("NavigationPage/MainPage", param);
         }
 
         private async void ValidationError()

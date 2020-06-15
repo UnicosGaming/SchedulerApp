@@ -9,8 +9,7 @@
 			 xmlns:templates="clr-namespace:SchedulerApp.Views.Templates"
 			 prism:ViewModelLocator.AutowireViewModel="True"
 			 x:Class="SchedulerApp.Views.MainPage"
-			 Visual="Material"
-			 NavigationPage.TitleView="{Binding CurrentUser.Name}">
+			 Visual="Material">
 
 	<ContentPage.Resources>
 		<ResourceDictionary>
@@ -19,20 +18,25 @@
 	</ContentPage.Resources>
 
 	<ContentPage.ToolbarItems>
-		<ToolbarItem Text="Hello" />
+		<ToolbarItem IconImageSource="baseline_login_white_24.png"
+					 Command="{Binding LogoutCommand}" />
 	</ContentPage.ToolbarItems>
 
-	<AbsoluteLayout HorizontalOptions="CenterAndExpand"
-				 VerticalOptions="CenterAndExpand">
-		<ListView x:Name="lstSchedules"
-				  ItemsSource="{Binding Items}"
-				  CachingStrategy="RecycleElement"
-				  HasUnevenRows="True">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<ViewCell Tapped="ViewCell_Tapped">
-						<SwipeView>
-							<!--<SwipeView.RightItems>
+	<StackLayout>
+		<Label Text="{Binding HeaderText}" />
+
+		<AbsoluteLayout HorizontalOptions="CenterAndExpand"
+						VerticalOptions="CenterAndExpand">
+
+			<ListView x:Name="lstSchedules"
+					  ItemsSource="{Binding Items}"
+					  CachingStrategy="RecycleElement"
+					  HasUnevenRows="True">
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell Tapped="ViewCell_Tapped">
+							<SwipeView>
+								<!--<SwipeView.RightItems>
 								<SwipeItems Mode="Reveal">
 									<SwipeItem Text="Delete" IconImageSource="baseline_delete_forever_white_24.png"
 											   BackgroundColor="{StaticResource RedColor}"
@@ -41,42 +45,42 @@
 								</SwipeItems>
 							</SwipeView.RightItems>-->
 
-							<SwipeView.LeftItems>
-								<SwipeItems Mode="Execute">
-									<SwipeItem Text="Delete"
-											   IconImageSource="baseline_delete_forever_white_24.png"
-											   BackgroundColor="{StaticResource RedColor}"
-											   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
-											   CommandParameter="{Binding .}" />
-								</SwipeItems>
-							</SwipeView.LeftItems>
+								<SwipeView.LeftItems>
+									<SwipeItems Mode="Execute">
+										<SwipeItem Text="Delete"
+												   IconImageSource="baseline_delete_forever_white_24.png"
+												   BackgroundColor="{StaticResource RedColor}"
+												   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
+												   CommandParameter="{Binding .}" />
+									</SwipeItems>
+								</SwipeView.LeftItems>
 
-							<templates:ScheduleItemTemplate />
-						</SwipeView>
-					</ViewCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-			<ListView.Behaviors>
-				<prism:EventToCommandBehavior EventName="ItemTapped"
-											  Command="{Binding ItemTappedCommand}" 
-											  EventArgsConverter="{StaticResource itemTappedEventArgsConverter}"/>
-			</ListView.Behaviors>
-		</ListView>
+								<templates:ScheduleItemTemplate />
+							</SwipeView>
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+				<ListView.Behaviors>
+					<prism:EventToCommandBehavior EventName="ItemTapped"
+												  Command="{Binding ItemTappedCommand}"
+												  EventArgsConverter="{StaticResource itemTappedEventArgsConverter}" />
+				</ListView.Behaviors>
+			</ListView>
 
-		<Button WidthRequest="56"
-				HeightRequest="56"
-				CornerRadius="28"
-				Margin="16"
-				BackgroundColor="{StaticResource BlackColor}"
-				AbsoluteLayout.LayoutFlags="PositionProportional"
-				AbsoluteLayout.LayoutBounds="1.0, 1.0, -1, -1"
-				ImageSource="baseline_add_white_24.png"
-				Command="{Binding AddCommand}" />
+			<Button WidthRequest="56"
+					HeightRequest="56"
+					CornerRadius="28"
+					Margin="16"
+					BackgroundColor="{StaticResource BlackColor}"
+					AbsoluteLayout.LayoutFlags="PositionProportional"
+					AbsoluteLayout.LayoutBounds="1.0, 1.0, -1, -1"
+					ImageSource="baseline_add_white_24.png"
+					Command="{Binding AddCommand}" />
 
-		<ActivityIndicator x:Name="aiDefault"
-						   VerticalOptions="CenterAndExpand"
-						   HorizontalOptions="CenterAndExpand"
-						   IsRunning="{Binding IsTaskRunning}" />
-	</AbsoluteLayout>
-
+			<ActivityIndicator x:Name="aiDefault"
+							   VerticalOptions="CenterAndExpand"
+							   HorizontalOptions="CenterAndExpand"
+							   IsRunning="{Binding IsTaskRunning}" />
+		</AbsoluteLayout>
+	</StackLayout>
 </ContentPage>

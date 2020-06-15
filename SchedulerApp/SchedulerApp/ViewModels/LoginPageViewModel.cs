@@ -3,6 +3,7 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using SchedulerApp.Models;
 using SchedulerApp.Providers;
 using SchedulerApp.Services.IdentityService;
 using System;
@@ -29,7 +30,7 @@ namespace SchedulerApp.ViewModels
 
             LoginCommand = new DelegateCommand(async () => await Login(), () => true);
 
-            MessagingCenter.Subscribe<IIdentityService>(this, "validation_ok", (_) => { _navigationService.NavigateAsync("/MainPage"); });
+            MessagingCenter.Subscribe<IIdentityService, User>(this, "validation_ok", (_, user) => { NavigateToMainPage(user); });
             MessagingCenter.Subscribe<IIdentityService>(this, "validation_error", (_) => { Debug.WriteLine("### Login error"); });
 
             _identityService = identityService;
@@ -48,8 +49,6 @@ namespace SchedulerApp.ViewModels
                 try
                 {
                     await _identityService.LoginAsync(parentPovider.Parent);
-                    //.ContinueWith((_) => _navigationService.NavigateAsync("MainPage"), TaskContinuationOptions.OnlyOnRanToCompletion)
-                    //.Wait();
                 }
                 catch (Exception ex)
                 {
@@ -57,8 +56,12 @@ namespace SchedulerApp.ViewModels
                 }
 
             }
+        }
 
-            //await _identityService.LoginAsync(App.ParentWindow);
+        private async void NavigateToMainPage(User user)
+        {
+            var param = new NavigationParameters() { { "user", user } };
+            await _navigationService.NavigateAsync("NavigationPage/MainPage", param);
         }
 
     }

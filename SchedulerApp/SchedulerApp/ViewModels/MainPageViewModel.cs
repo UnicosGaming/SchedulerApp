@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
+using SchedulerApp.Services.IdentityService;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,14 +20,24 @@ namespace SchedulerApp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
+        private readonly IIdentityService _identityService;
         private Schedule _originalItem;
-        
+
 
         public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
         public DelegateCommand<Schedule> DeleteCommand { get; private set; }
+        public DelegateCommand LogoutCommand { get; private set; }
+
+        private string _headerText;
+        public string HeaderText
+        {
+            get => _headerText;
+            set => SetProperty(ref _headerText, value);
+        }
 
         private User _currentUser;
         public User CurrentUser
@@ -42,14 +53,16 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _items, value);
         }
 
-        public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService, IIdentityService identityService) : base(navigationService)
         {
+            _navigationService = navigationService;
             _pageDialogService = pageDialogService;
             _dataService = dataService;
-
+            _identityService = identityService;
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
             AddCommand = new DelegateCommand(() => NavigationService.NavigateAsync("SchedulePage"));
             DeleteCommand = new DelegateCommand<Schedule>((x) => DeleteSchedule(x));
+            LogoutCommand = new DelegateCommand(() => Logout());
         }
 
         /// <summary>
@@ -58,6 +71,7 @@ namespace SchedulerApp.ViewModels
         /// <param name="parameters"></param>
         public override async void Initialize(INavigationParameters parameters)
         {
+            // TODO: Refactor
             try
             {
                 IsTaskRunning = true;
@@ -65,7 +79,11 @@ namespace SchedulerApp.ViewModels
                 // User Info
                 var user = parameters["user"] as User;
                 if (user != null)
+                {
                     _currentUser = user;
+                    HeaderText = $"Hello {user.Name}";
+
+                }
 
                 // Load schedules
                 var schedules = await _dataService.Get();
@@ -112,6 +130,19 @@ namespace SchedulerApp.ViewModels
                 _dataService.Delete(schedule.Id);
                 Items.Remove(schedule);
             }
+        }
+
+        private async void Logout()
+        {
+            var answer = await _pageDialogService.DisplayActionSheetAsync("Do you want to logout?", "No", "Yes");
+
+            if (answer.Equals("Yes"))
+            {
+                await _identityService.LogoutAsync();
+
+                await _navigationService.NavigateAsync("/LoginPage");
+            }
+
         }
     }
 }
