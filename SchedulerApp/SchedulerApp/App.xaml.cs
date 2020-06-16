@@ -38,8 +38,9 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            //await NavigationService.NavigateAsync("/SplashPage");
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("/SplashPage");
+            //await NavigationService.NavigateAsync("/LoginPage");
+            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

@@ -8,7 +8,6 @@
 
 	<ContentPage.Content>
 		<StackLayout>
-			<Label Text="Login" />
 			<Image Source="logo.png"
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />

@@ -20,7 +20,6 @@ namespace SchedulerApp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        private readonly INavigationService _navigationService;
         private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
         private readonly IIdentityService _identityService;
@@ -55,7 +54,6 @@ namespace SchedulerApp.ViewModels
 
         public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService, IIdentityService identityService) : base(navigationService)
         {
-            _navigationService = navigationService;
             _pageDialogService = pageDialogService;
             _dataService = dataService;
             _identityService = identityService;
@@ -140,7 +138,7 @@ namespace SchedulerApp.ViewModels
             {
                 await _identityService.LogoutAsync();
 
-                await _navigationService.NavigateAsync("/LoginPage");
+                await NavigationService.NavigateAsync("/LoginPage");
             }
 
         }

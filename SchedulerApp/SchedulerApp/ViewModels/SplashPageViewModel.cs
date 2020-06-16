@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Services.IdentityService;
 using System;
@@ -15,54 +16,40 @@ namespace SchedulerApp.ViewModels
 {
     public class SplashPageViewModel : ViewModelBase
     {
-        private readonly INavigationService _navigationService;
         private readonly IIdentityService _identityService;
+        private readonly IPageDialogService _pageDialogService;
 
-        private bool _isTaskRunning;
-        public bool IsTaskRunning
+        public SplashPageViewModel(INavigationService navigationService, IIdentityService identityService, IPageDialogService pageDialogService) : base(navigationService)
         {
-            get { return _isTaskRunning; }
-            set { SetProperty(ref _isTaskRunning, value); }
-        }
-
-        public SplashPageViewModel(INavigationService navigationService, IIdentityService identityService):base(navigationService)
-        {
-            _navigationService = navigationService;
             _identityService = identityService;
-
-            MessagingCenter.Subscribe<IIdentityService, User>(this, "validation_ok", (_, user) => { ValidationOk(user); });
-            MessagingCenter.Subscribe<IIdentityService>(this, "login_silent_error", (_) => { ValidationError(); });
-
-            TryValidate();
+            _pageDialogService = pageDialogService;
         }
 
-        private void TryValidate()
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            TryLogin();
+        }
+
+        private async void TryLogin()
         {
             try
             {
                 IsTaskRunning = true;
 
-                _identityService.LoginSilentAsync();
+                var user = await _identityService.LoginAsync();
+
+                var param = new NavigationParameters() { { "user", user } };
+                await NavigationService.NavigateAsync("NavigationPage/MainPage", param);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("### Login silent failed ###");
+                await _pageDialogService.DisplayAlertAsync("Splash Error", $"{ex.Message}", "OK");
+            }
+            finally
+            {
+                IsTaskRunning = false;
             }
         }
-
-        private async void ValidationOk(User userInfo)
-        {
-            IsTaskRunning = false;
-            var param = new NavigationParameters() { { "user", userInfo } };
-            await _navigationService.NavigateAsync("NavigationPage/MainPage", param);
-        }
-
-        private async void ValidationError()
-        {
-            IsTaskRunning = false;
-            await _navigationService.NavigateAsync("/LoginPage");
-        }
-
-
     }
 }

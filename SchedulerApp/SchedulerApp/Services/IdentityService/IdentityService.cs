@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using SchedulerApp.Configuration;
 using SchedulerApp.Models;
+using SchedulerApp.Providers;
 using SchedulerApp.Services.UserService;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Unity;
 using Xamarin.Forms;
 
 namespace SchedulerApp.Services.IdentityService
@@ -17,15 +19,14 @@ namespace SchedulerApp.Services.IdentityService
     public class IdentityService : IIdentityService
     {
         private IPublicClientApplication PCA = null;
-        private string Username = string.Empty;
         private IEnumerable<IAccount> _accounts;
-        private readonly HttpClient _httpClient;
         private readonly IUserService _userService;
+        private readonly IUnityContainer _unityContainer;
 
-        public IdentityService(IUserService userService)
+        public IdentityService(IUserService userService, IUnityContainer unityContainer)
         {
-            _httpClient = new HttpClient();
             _userService = userService;
+            _unityContainer = unityContainer;
 
             PCA = PublicClientApplicationBuilder.Create(Secrets.ClientID)
                 .WithRedirectUri($"msal{Secrets.ClientID}://auth")
@@ -33,9 +34,40 @@ namespace SchedulerApp.Services.IdentityService
                 .Build();
 
             LoadAccounts();
-            
+
         }
-        public async Task LoginAsync(object parentWindow)
+        /// <summary>
+        /// Try a silent validation, if it's fails with a MsalUiRequiredException exception
+        /// then try with an interactive validation
+        /// </summary>
+        /// <returns>User info</returns>
+        public async Task<User> LoginAsync()
+        {
+            try
+            {
+                return await TryLoginSilentAsync();
+            }
+            catch (MsalUiRequiredException)
+            {
+                if (_unityContainer.IsRegistered<IParentWindowProvider>())
+                {
+                    Debug.WriteLine("### Is Registered ###");
+                    var parentPovider = _unityContainer.Resolve<IParentWindowProvider>();
+
+                    return await TryLoginInteractiveAsync(parentPovider.Parent);
+                }
+                else
+                {
+                    throw new Exception("Cannot get ParentWindowProvider");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        private async Task<User> TryLoginInteractiveAsync(object parentWindow)
         {
             Debug.WriteLine("### LogInAsync() ###");
 
@@ -45,17 +77,15 @@ namespace SchedulerApp.Services.IdentityService
                     .WithParentActivityOrWindow(parentWindow)
                     .ExecuteAsync();
 
-                ValidateAuth(authResult);
+                return await ValidateAuth(authResult);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("### LogInAsync Exception ###");
-
                 throw;
-                
             }
         }
-        public async Task LoginSilentAsync()
+        private async Task<User> TryLoginSilentAsync()
         {
             Debug.WriteLine("### LogInSilentAsync() ###");
             try
@@ -63,15 +93,14 @@ namespace SchedulerApp.Services.IdentityService
                 IAccount firstAccount = _accounts.FirstOrDefault();
                 AuthenticationResult authResult = await PCA.AcquireTokenSilent(Secrets.Scopes, firstAccount).ExecuteAsync();
 
-                ValidateAuth(authResult);
+                return await ValidateAuth(authResult);
             }
-            catch (MsalUiRequiredException msalEx)
+            catch (MsalUiRequiredException)
             {
                 Debug.WriteLine("### MsalUiRequiredException ###");
-
-                // TODO: Maybe this message is not sent. Check SplashScreen page
-                MessagingCenter.Send<IIdentityService>(this, "login_silent_error");
+                throw;
             }
+            catch (Exception) { throw; }
         }
         public async Task LogoutAsync()
         {
@@ -88,55 +117,31 @@ namespace SchedulerApp.Services.IdentityService
             _accounts = await PCA.GetAccountsAsync();
         }
 
-        private async Task ValidateAuth(AuthenticationResult authResult)
+        private async Task<User> ValidateAuth(AuthenticationResult authResult)
         {
             Debug.WriteLine("### ValidateAuth() ###");
-            if (authResult != null)
+            try
             {
-                try
+                if (authResult != null)
                 {
-                    //var content = await GetHttpContentWithTokenAsync(authResult.AccessToken);
                     var userInfo = await _userService.GetUserInfoAsync(authResult.AccessToken);
-                    //var values = JObject.Parse(content);
-                    //if ((string)values["odata.error"]["code"] == "Authentication_ExpiredToken")
-                    //{
-                    //    MessagingCenter.Send<IIdentityService>(this, "login_silent_error");
-                    //}
+                    
                     Debug.WriteLine("### ValidateAuth - OK ###");
-                    MessagingCenter.Send<IIdentityService, User>(this, "validation_ok", userInfo);
+                    
+                    return userInfo;
                 }
-                catch (Exception ex)
+                else
                 {
-                    string message = string.Format($"Validation error: {ex.Message}");
-                    Debug.WriteLine($"### ValidateAuth - ERROR: {message} ###");
-                    MessagingCenter.Send<IIdentityService>(this, "validation_error");
+                    throw new Exception("Error on ValidateAuth");
                 }
             }
+            catch (Exception ex)
+            {
+                string message = string.Format($"Validation error: {ex.Message}");
+                Debug.WriteLine($"### ValidateAuth - ERROR: {message} ###");
+
+                throw;
+            }
         }
-
-        //private async Task<string> GetHttpContentWithTokenAsync(string token)
-        //{
-        //    Debug.WriteLine("### GetHttpContentWithTokenAsync() ###");
-        //    try
-        //    {
-        //        //get data from API
-        //        HttpClient client = new HttpClient();
-        //        // Request user info
-        //        HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "https://graph.microsoft.com/v1.0/me");
-        //        //HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "https://graph.windows.net/me?api-version=1.6");
-        //        // Request user groups
-        //        //HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, "https://graph.microsoft.com/v1.0/me/memberOf");
-        //        message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-        //        HttpResponseMessage response = await client.SendAsync(message);
-        //        string responseString = await response.Content.ReadAsStringAsync();
-
-        //        return responseString;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine("### GetHttpContentWithTokenAsync Exception ###");
-        //        throw;
-        //    }
-        //}
     }
 }
