@@ -38,9 +38,8 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("/SplashPage");
-            //await NavigationService.NavigateAsync("/LoginPage");
-            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            //await NavigationService.NavigateAsync("/SplashPage");
+            await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -55,7 +54,7 @@ namespace SchedulerApp
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
-            containerRegistry.RegisterForNavigation<SchedulePage, SchedulePageViewModel>();
+            containerRegistry.RegisterForNavigation<TeamSchedulePage, TeamSchedulePageViewModel>();
         }
     }
 }

@@ -13,6 +13,14 @@
     <None Remove="Tools\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Models\Schedule.cs" />
+    <Compile Remove="ViewModels\SchedulePageViewModel.cs" />
+    <Compile Remove="Views\SchedulePage.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\SchedulePage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\Fonts\Roboto-Regular.ttf" />
     <None Remove="Resources\Fonts\UnicaOne-Regular.ttf" />
   </ItemGroup>
@@ -28,18 +36,13 @@
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\SchedulePage.xaml.cs">
-      <DependentUpon>SchedulePage.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SchedulePage.xaml">
+    <EmbeddedResource Update="Views\SplashPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\SplashPage.xaml">
+    <EmbeddedResource Update="Views\TeamSchedulePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Templates\ScheduleItemTemplate.xaml">

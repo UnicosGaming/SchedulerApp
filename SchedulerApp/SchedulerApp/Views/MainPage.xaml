@@ -22,16 +22,22 @@
 					 Command="{Binding LogoutCommand}" />
 	</ContentPage.ToolbarItems>
 
-	<StackLayout>
+	<StackLayout HorizontalOptions="FillAndExpand"
+				 VerticalOptions="FillAndExpand">
 		<Label Text="{Binding HeaderText}" />
 
-		<AbsoluteLayout HorizontalOptions="CenterAndExpand"
-						VerticalOptions="CenterAndExpand">
+		<AbsoluteLayout HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
 
 			<ListView x:Name="lstSchedules"
 					  ItemsSource="{Binding Items}"
 					  CachingStrategy="RecycleElement"
-					  HasUnevenRows="True">
+					  HasUnevenRows="True"
+					  HorizontalOptions="FillAndExpand"
+					  VerticalOptions="FillAndExpand"
+					  AbsoluteLayout.LayoutFlags="All"
+					  AbsoluteLayout.LayoutBounds="0,0,1,1"
+					  >
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<ViewCell Tapped="ViewCell_Tapped">

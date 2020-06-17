@@ -6,21 +6,19 @@ using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchedulerApp.ViewModels
 {
-    public class SchedulePageViewModel : ViewModelBase
+    public class TeamSchedulePageViewModel : ViewModelBase
     {
-        private Schedule _originalItem;
+        private TeamSchedule _originalItem;
 
         public DelegateCommand SaveCommand { get; private set; }
 
-        private Schedule _schedule;
-        public Schedule Schedule
+        private TeamSchedule _schedule;
+        public TeamSchedule Schedule
         {
             get => _schedule;
             set => SetProperty(ref _schedule, value);
@@ -45,8 +43,7 @@ namespace SchedulerApp.ViewModels
                 RaisePropertyChanged(nameof(Time));
             }
         }
-
-        public SchedulePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) : base(navigationService)
+        public TeamSchedulePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
             _dataService = dataService;
@@ -56,12 +53,12 @@ namespace SchedulerApp.ViewModels
 
         public override void Initialize(INavigationParameters parameters)
         {
-            _originalItem = parameters["original"] as Schedule;
+            _originalItem = parameters["original"] as TeamSchedule;
 
             if (_originalItem == null)
                 SetScheduleForAddition();
             else
-                SetScheduleForEdition(parameters["model"] as Schedule);
+                SetScheduleForEdition(parameters["model"] as TeamSchedule);
         }
 
         /// <summary>
@@ -83,11 +80,11 @@ namespace SchedulerApp.ViewModels
 
         private void SetScheduleForAddition()
         {
-            _originalItem = new Schedule();
+            _originalItem = new TeamSchedule();
             Schedule = _originalItem;
         }
 
-        private void SetScheduleForEdition(Schedule schedule)
+        private void SetScheduleForEdition(TeamSchedule schedule)
         {
             // Save the the time value before setting the Schedule property because after that the value will lose.
             _time = schedule.Date.TimeOfDay;
@@ -105,7 +102,6 @@ namespace SchedulerApp.ViewModels
             }
             else
             {
-                Schedule.Team = "Team A";
                 await _dataService.Save(Schedule);
 
                 // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom

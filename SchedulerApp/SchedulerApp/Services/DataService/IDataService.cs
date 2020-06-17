@@ -8,9 +8,9 @@ namespace SchedulerApp.Services.DataService
 {
     public interface IDataService
     {
-        Task<IEnumerable<Schedule>> Get();
-        Task<Schedule> Get(string id);
-        Task<Schedule> Save(Schedule item);
+        Task<IEnumerable<TeamSchedule>> Get();
+        Task<TeamSchedule> Get(string id);
+        Task<TeamSchedule> Save(TeamSchedule item);
         void Delete(string id);
     }
 }

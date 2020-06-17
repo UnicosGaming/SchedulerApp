@@ -24,8 +24,7 @@
 				   Grid.Row="0"
 				   Text="{Binding Date, StringFormat='{0:dd-MMM}'}"
 				   TextColor="{StaticResource WhiteColor}"
-				   HorizontalTextAlignment="Center"
-				   />
+				   HorizontalTextAlignment="Center" />
 			<Label Grid.Column="0"
 				   Grid.Row="1"
 				   Text="{Binding Date, StringFormat='{0:HH:mm}'}"
@@ -33,12 +32,12 @@
 				   HorizontalTextAlignment="Center" />
 			<Label Grid.Column="1"
 				   Grid.Row="0"
-				   Text="{Binding Competition}" 
-				   TextColor="{StaticResource WhiteColor}"/>
+				   Text="{Binding Competition}"
+				   TextColor="{StaticResource WhiteColor}" />
 			<Label Grid.Column="1"
 				   Grid.Row="1"
 				   Text="{Binding Stream}"
-				   TextColor="{StaticResource WhiteColor}"/>
+				   TextColor="{StaticResource WhiteColor}" />
 
 		</Grid>
 	</ContentView.Content>

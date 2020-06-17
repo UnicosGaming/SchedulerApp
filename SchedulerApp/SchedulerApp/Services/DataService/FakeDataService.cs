@@ -10,7 +10,7 @@ namespace SchedulerApp.Services.DataService
 {
     public class FakeDataService : IDataService
     {
-        List<Schedule> items;
+        List<TeamSchedule> items;
 
         public FakeDataService()
         {
@@ -25,13 +25,13 @@ namespace SchedulerApp.Services.DataService
                 items.Remove(item);
             }
         }
-        public Task<IEnumerable<Schedule>> Get()
+        public Task<IEnumerable<TeamSchedule>> Get()
         {
             var results = items.FindAll(x => x.Date >= DateTime.UtcNow);
-            return Task.FromResult( results as IEnumerable<Schedule>);
+            return Task.FromResult(results as IEnumerable<TeamSchedule>);
         }
-        public Task<Schedule> Get(string id) => throw new NotImplementedException();
-        public Task<Schedule> Save(Schedule schedule)
+        public Task<TeamSchedule> Get(string id) => throw new NotImplementedException();
+        public Task<TeamSchedule> Save(TeamSchedule schedule)
         {
             Debug.WriteLine($"[DATA SERVICE] Save {schedule.Id}");
 
@@ -47,29 +47,33 @@ namespace SchedulerApp.Services.DataService
 
         private void InitializeFakeData()
         {
-            items = new List<Schedule>
+            items = new List<TeamSchedule>
             {
-                new Schedule(Guid.NewGuid().ToString())
+                new TeamSchedule()
                 {
                     Competition = "Competition A",
+                    Opponent = "Opponent A",
                     Date = new DateTime(2019,9,13, 12,30,0),
-                    Stream = "https://twitch.tv/UnicosGaming"
+                    Stream = "https://twitch.tv/UnicosGaming",
                 },
-                new Schedule(Guid.NewGuid().ToString())
+                new TeamSchedule()
                 {
                     Competition = "Competition B",
+                    Opponent = "Opponent B",
                     Date = new DateTime(2020,9,15, 20,0,0),
                     Stream = "https://twitch.tv/UnicosGaming"
                 },
-                new Schedule(Guid.NewGuid().ToString())
+                new TeamSchedule()
                 {
                     Competition = "Competition C",
+                    Opponent = "Opponent C",
                     Date = new DateTime(2019,10,6, 16,0,0),
                     Stream = "https://twitch.tv/UnicosGaming"
                 },
-                new Schedule(Guid.NewGuid().ToString())
+                new TeamSchedule()
                 {
                     Competition = "Competition D",
+                    Opponent = "Opponent D",
                     Date = new DateTime(2020,12,30, 20,0,0),
                     Stream = "https://twitch.tv/UnicosGaming"
                 }
