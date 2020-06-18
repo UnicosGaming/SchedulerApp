@@ -83,7 +83,6 @@ namespace SchedulerApp.Services.DataService
         public async Task<T> ExecuteStoreProcedureAsync<T>(string sp_name, SqlParameter[] parameters, Func<SqlDataReader, T> mapper)
         {
             Debug.WriteLine("### ExecuteStoreProcedureAsync ###");
-            Debug.WriteLine(_connectionString);
 
             try
             {
