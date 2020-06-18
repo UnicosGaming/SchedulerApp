@@ -8,7 +8,7 @@ namespace SchedulerApp.Services.IdentityService
 {
     public interface IIdentityService
     {
-        Task<User> LoginAsync();
+        Task<User> Login();
         Task LogoutAsync();
     }
 }

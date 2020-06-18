@@ -37,7 +37,7 @@ namespace SchedulerApp.ViewModels
             {
                 IsTaskRunning = true;
 
-                var user = await _identityService.LoginAsync();
+                var user = await _identityService.Login();
 
                 var param = new NavigationParameters() { { "user", user } };
                 await NavigationService.NavigateAsync("NavigationPage/MainPage", param);

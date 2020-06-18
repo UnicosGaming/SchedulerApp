@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SchedulerApp.Models
 {
-    public abstract class ModelBase<T> : BindableBase, ICopiable<T> where T : ModelBase<T>
+    public abstract class ScheduleBase<T> : BindableBase, ICopiable<T> where T : ScheduleBase<T>
     {
         public string Id { get; }
         private DateTime _date;
@@ -32,7 +32,7 @@ namespace SchedulerApp.Models
         /// <summary>
         /// Default constructor generate it's own Id
         /// </summary>
-        public ModelBase() : this(Guid.NewGuid().ToString())
+        public ScheduleBase() : this(Guid.NewGuid().ToString())
         {
             this.Date = DateTime.UtcNow;
         }
@@ -41,7 +41,7 @@ namespace SchedulerApp.Models
         /// Create an object with the specified Id
         /// </summary>
         /// <param name="id">GUID string</param>
-        public ModelBase(string id) => Id = id;
+        public ScheduleBase(string id) => Id = id;
 
 
         public virtual T CopyTo(T target)

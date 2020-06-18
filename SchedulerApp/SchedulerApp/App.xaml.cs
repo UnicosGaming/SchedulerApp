@@ -38,15 +38,18 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            //await NavigationService.NavigateAsync("/SplashPage");
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+            await NavigationService.NavigateAsync("/SplashPage");
+            //await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-            containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
+            containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
+            //containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
+
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
+            containerRegistry.RegisterSingleton<ISqlDataService, SqlDataService>();
             containerRegistry.RegisterSingleton<IRequestService, RequestService>();
             containerRegistry.Register<IUserService, UserService>(); // Transient registration
 

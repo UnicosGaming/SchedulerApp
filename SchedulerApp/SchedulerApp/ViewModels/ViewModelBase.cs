@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using SchedulerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +27,13 @@ namespace SchedulerApp.ViewModels
         {
             get => _isTaskRunning;
             set => SetProperty(ref _isTaskRunning, value);
+        }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set => SetProperty(ref _currentUser, value);
         }
 
         public ViewModelBase(INavigationService navigationService)

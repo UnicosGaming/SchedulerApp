@@ -41,7 +41,7 @@ namespace SchedulerApp.Services.IdentityService
         /// then try with an interactive validation
         /// </summary>
         /// <returns>User info</returns>
-        public async Task<User> LoginAsync()
+        public async Task<User> Login()
         {
             try
             {

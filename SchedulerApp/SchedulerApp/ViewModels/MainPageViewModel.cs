@@ -38,12 +38,12 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _headerText, value);
         }
 
-        private User _currentUser;
-        public User CurrentUser
-        {
-            get => _currentUser;
-            set => SetProperty(ref _currentUser, value);
-        }
+        //private User _currentUser;
+        //public User CurrentUser
+        //{
+        //    get => _currentUser;
+        //    set => SetProperty(ref _currentUser, value);
+        //}
 
         ObservableCollection<TeamSchedule> _items;
         public ObservableCollection<TeamSchedule> Items
@@ -79,8 +79,9 @@ namespace SchedulerApp.ViewModels
                 var user = parameters["user"] as User;
                 if (user != null)
                 {
-                    _currentUser = user;
-                    HeaderText = $"Welcome {user.Name} [{user.Group.Name}]";
+                    //_currentUser = user;
+                    CurrentUser = user;
+                    HeaderText = $"{user.Name} [{user.Group.Name}]";
 
                 }
 

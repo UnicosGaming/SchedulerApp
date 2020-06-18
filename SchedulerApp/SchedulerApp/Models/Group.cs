@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchedulerApp.Models
 {
-    public class Group:ModelBase<Group>
+    public class Group: IdentityModelBase
     {
         public Group(string id) : base(id)
         {
@@ -12,5 +12,8 @@ namespace SchedulerApp.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool IsReadOnly { get; set; }
+
+        public List<Team> Teams { get; set; }
     }
 }
