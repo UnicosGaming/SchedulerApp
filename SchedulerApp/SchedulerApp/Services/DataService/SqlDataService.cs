@@ -13,7 +13,6 @@ namespace SchedulerApp.Services.DataService
 {
     public class SqlDataService : ISqlDataService
     {
-
         private string _connectionString => Secrets.ConnectionString;
 
         public async Task<Group> GetGroupInfoAsync(string groupId)
