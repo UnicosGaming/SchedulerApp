@@ -1,5 +1,4 @@
-﻿using Dapper;
-using SchedulerApp.Configuration;
+﻿using SchedulerApp.Configuration;
 using SchedulerApp.Models;
 using SchedulerApp.Models.Mappers;
 using System;
