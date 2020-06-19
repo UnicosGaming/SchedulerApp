@@ -57,6 +57,7 @@ namespace SchedulerApp
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSchedulePage, TeamSchedulePageViewModel>();
+            containerRegistry.RegisterForNavigation<TeamSelectionPage, TeamSelectionPageViewModel>();
         }
     }
 }

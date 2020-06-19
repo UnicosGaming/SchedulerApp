@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchedulerApp.ViewModels
+namespace SchedulerApp.ViewModels.Base
 {
     public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
     {

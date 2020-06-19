@@ -11,6 +11,7 @@ namespace SchedulerApp.Models
         }
         
         public string Name { get; set; }
+        public string Code { get; set; }
         public Page Page { get; set; }
     }
 }

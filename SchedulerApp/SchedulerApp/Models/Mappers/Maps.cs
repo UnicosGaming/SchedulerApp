@@ -32,7 +32,8 @@ namespace SchedulerApp.Models.Mappers
                 {
                     teams.Add(new Team(reader["id"].ToString())
                     {
-                        Name = reader["name"].ToString()
+                        Name = reader["name"].ToString(),
+                        Code = reader["code"].ToString()
                     });
                 }
 

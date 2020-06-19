@@ -5,6 +5,7 @@ using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.Services.IdentityService;
+using SchedulerApp.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -59,7 +60,7 @@ namespace SchedulerApp.ViewModels
             _identityService = identityService;
 
             ItemTappedCommand = new DelegateCommand<TeamSchedule>((x) => EditSchedule(x));
-            AddCommand = new DelegateCommand(() => NavigationService.NavigateAsync("TeamSchedulePage"));
+            AddCommand = new DelegateCommand(() => AddSchedule());
             DeleteCommand = new DelegateCommand<TeamSchedule>((x) => DeleteSchedule(x));
             LogoutCommand = new DelegateCommand(() => Logout());
         }
@@ -109,6 +110,31 @@ namespace SchedulerApp.ViewModels
                 {
                     Items.Add(schedule);
                 }
+            }
+
+        }
+
+        private async void AddSchedule()
+        {
+            if (CurrentUser.Group.Teams.Count > 1)
+            {
+                var parameter = new NavigationParameters() { { "user", CurrentUser } };
+                await NavigationService.NavigateAsync("TeamSelectionPage", parameter);
+            }
+            else
+            {
+                try
+                {
+                    var pageType = PageLocator.GetPage(CurrentUser.Group.Teams.First().Page.Name);
+
+                    await NavigationService.NavigateAsync($"NavigationPage/{pageType}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"### [ERROR] AddSchedule: {ex.Message}");
+                    await _pageDialogService.DisplayAlertAsync("Error on AddSchedule", "Cannot create a new schedule", "OK");
+                }
+
             }
 
         }

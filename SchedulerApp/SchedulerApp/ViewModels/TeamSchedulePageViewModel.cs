@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
+using SchedulerApp.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

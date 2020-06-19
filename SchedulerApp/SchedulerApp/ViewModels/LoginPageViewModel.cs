@@ -7,6 +7,7 @@ using SchedulerApp.Models;
 using SchedulerApp.Providers;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.Services.IdentityService;
+using SchedulerApp.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

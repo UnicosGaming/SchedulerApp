@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:prism="http://prismlibrary.com"
+			 xmlns:converters="clr-namespace:SchedulerApp.Converters"
+			 prism:ViewModelLocator.AutowireViewModel="True"
+			 x:Class="SchedulerApp.Views.TeamSelectionPage"
+			 Visual="Material">
+
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<converters:ItemTappedToTeamConverter x:Key="itemTappedToTeamConverter" />
+			<converters:CodeToImageNameConverter x:Key="codeToImageNameConverter" />
+		</ResourceDictionary>
+	</ContentPage.Resources>
+
+	<StackLayout HorizontalOptions="FillAndExpand"
+				 VerticalOptions="FillAndExpand">
+
+		<Label Text="What team is the schedule for?" />
+
+		<AbsoluteLayout HorizontalOptions="FillAndExpand"
+						VerticalOptions="FillAndExpand">
+			<ListView x:Name="lstTeams"
+					  ItemsSource="{Binding CurrentUser.Group.Teams}"
+					  CachingStrategy="RecycleElement"
+					  HasUnevenRows="True"
+					  HorizontalOptions="FillAndExpand"
+					  VerticalOptions="FillAndExpand"
+					  AbsoluteLayout.LayoutFlags="All"
+					  AbsoluteLayout.LayoutBounds="0,0,1,1">
+
+				<ListView.ItemTemplate>
+					<DataTemplate>
+						<ViewCell>
+							<StackLayout Orientation="Horizontal"
+										 BackgroundColor="{StaticResource BlackColor}">
+								<Image Source="{Binding Code, Converter={StaticResource codeToImageNameConverter}}" />
+								<Label Text="{Binding Name}" VerticalOptions="CenterAndExpand"/>
+							</StackLayout>
+							
+						</ViewCell>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+
+				<ListView.Behaviors>
+					<prism:EventToCommandBehavior EventName="ItemTapped"
+												  Command="{Binding ItemTappedCommand}"
+												  EventArgsConverter="{StaticResource itemTappedToTeamConverter}" />
+				</ListView.Behaviors>
+			</ListView>
+		</AbsoluteLayout>
+
+	</StackLayout>
+
+</ContentPage>
