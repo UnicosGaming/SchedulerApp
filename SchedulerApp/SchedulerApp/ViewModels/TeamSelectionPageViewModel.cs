@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.ViewModels.Base;
 using System;
@@ -15,15 +16,20 @@ namespace SchedulerApp.ViewModels
         public DelegateCommand<Team> ItemTappedCommand { get; private set; }
 
         private User _curretUser;
+        private readonly IPageDialogService _pageDialogService;
+
         public User CurrentUSer
         {
             get => _curretUser;
             set => SetProperty(ref _curretUser, value);
         }
 
-        public TeamSelectionPageViewModel(INavigationService navigationService) : base(navigationService)
+        public TeamSelectionPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService) : base(navigationService)
         {
-            ItemTappedCommand = new DelegateCommand<Team>((x) => Debug.WriteLine(x.Name));
+            _pageDialogService = pageDialogService;
+
+            ItemTappedCommand = new DelegateCommand<Team>((x) => NavigateToDetails(x));
+            
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -33,6 +39,21 @@ namespace SchedulerApp.ViewModels
             if (user != null)
             {
                 CurrentUser = user;
+            }
+        }
+
+        private async void NavigateToDetails(Team team)
+        {
+            try
+            {
+                var pageType = PageLocator.GetPage(team.Page.Name);
+
+                await NavigationService.NavigateAsync($"{pageType}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"### [ERROR] AddSchedule: {ex.Message}");
+                await _pageDialogService.DisplayAlertAsync("Error on AddSchedule", "Cannot create a new schedule", "OK");
             }
         }
     }

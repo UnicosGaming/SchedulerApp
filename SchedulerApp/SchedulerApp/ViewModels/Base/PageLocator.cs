@@ -8,8 +8,8 @@ namespace SchedulerApp.ViewModels.Base
     {
         private static Dictionary<string, string> _pages => new Dictionary<string, string>
         {
-            {"team", "TeamSchedulerPage"},
-            {"motor", "MotorSchedulerPage"}
+            {"team", "TeamSchedulePage"},
+            {"motor", "MotorSchedulePage"}
         };
 
         public static string GetPage(string type)

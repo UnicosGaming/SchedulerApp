@@ -127,16 +127,14 @@ namespace SchedulerApp.ViewModels
                 {
                     var pageType = PageLocator.GetPage(CurrentUser.Group.Teams.First().Page.Name);
 
-                    await NavigationService.NavigateAsync($"NavigationPage/{pageType}");
+                    await NavigationService.NavigateAsync($"{pageType}");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"### [ERROR] AddSchedule: {ex.Message}");
                     await _pageDialogService.DisplayAlertAsync("Error on AddSchedule", "Cannot create a new schedule", "OK");
                 }
-
             }
-
         }
 
         private async void EditSchedule(TeamSchedule schedule)
