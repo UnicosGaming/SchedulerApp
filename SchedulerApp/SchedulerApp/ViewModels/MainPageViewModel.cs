@@ -146,7 +146,8 @@ namespace SchedulerApp.ViewModels
             {
                 await _identityService.LogoutAsync();
 
-                await NavigationService.NavigateAsync("/LoginPage");
+                var parameter = new NavigationParameters() { { "logout", true } };
+                await NavigationService.NavigateAsync("/LoginPage", parameter);
             }
 
         }

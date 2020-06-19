@@ -38,7 +38,7 @@ namespace SchedulerApp
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("/SplashPage");
+            await NavigationService.NavigateAsync("/LoginPage");
             //await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
@@ -55,7 +55,6 @@ namespace SchedulerApp
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<SplashPage, SplashPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSchedulePage, TeamSchedulePageViewModel>();
         }

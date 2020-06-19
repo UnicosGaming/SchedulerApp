@@ -21,6 +21,6 @@ namespace SchedulerApp.Services.IdentityService
             });
         }
 
-        public Task LogoutAsync() => throw new NotImplementedException();
+        public Task LogoutAsync() { return Task.FromResult(true); }
     }
 }

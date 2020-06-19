@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="SchedulerApp.Views.LoginPage"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:prism="http://prismlibrary.com"
+			 prism:ViewModelLocator.AutowireViewModel="True"
+			 x:Class="SchedulerApp.Views.LoginPage"
 			 Visual="Material">
 
 	<ContentPage.Content>
@@ -12,17 +12,20 @@
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />
 
-			<Button x:Name="btnLogin"
-					Command="{Binding LoginCommand}"
-					Text="Log In"
-					VerticalOptions="End"
-					HorizontalOptions="FillAndExpand" />
+			<Grid VerticalOptions="End"
+				  HorizontalOptions="FillAndExpand">
 
-			<ActivityIndicator x:Name="aiDefault"
-							   VerticalOptions="CenterAndExpand"
-							   HorizontalOptions="CenterAndExpand"
-							   IsRunning="{Binding IsTaskRunning}" />
+				<Button Text="Log In"
+						Command="{Binding LoginCommand}"
+						IsVisible="{Binding IsLoginActive}"
+						VerticalOptions="End"
+						HorizontalOptions="FillAndExpand" />
+
+				<ActivityIndicator x:Name="aiDefault"
+								   VerticalOptions="End"
+								   HorizontalOptions="CenterAndExpand"
+								   IsRunning="{Binding IsTaskRunning}" />
+			</Grid>
 		</StackLayout>
-		
 	</ContentPage.Content>
 </ContentPage>
