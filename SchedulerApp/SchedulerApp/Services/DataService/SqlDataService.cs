@@ -15,65 +15,6 @@ namespace SchedulerApp.Services.DataService
     {
         private string _connectionString => Secrets.ConnectionString;
 
-        public async Task<Group> GetGroupInfoAsync(string groupId)
-        {
-            Debug.WriteLine("### GetGroupInfoAsync ###");
-
-            var p1 = new SqlParameter("@IdGroup", groupId);
-
-            try
-            {
-                return await ExecuteStoreProcedureAsync<Group>("sp_GetGroupInfo", new[] { p1 }, Maps.ToGroup);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Get the list of teams that belong to a group
-        /// </summary>
-        /// <param name="groupId">Group ID</param>
-        /// <returns>List of Teams</returns>
-        public async Task<List<Team>> GetGroupTeamsAsync(string groupId)
-        {
-            Debug.WriteLine("### GetGroupTeamsAsync ###");
-
-            var p1 = new SqlParameter("@IdGroup", groupId);
-
-            try
-            {
-                return await ExecuteStoreProcedureAsync<List<Team>>("sp_GetTeamsByGroup", new[] { p1 }, Maps.ToTeams);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Get the page associated to a team
-        /// </summary>
-        /// <param name="teamId">Team ID</param>
-        /// <returns>The team Page</returns>
-        public async Task<Page> GetTeamPageAsync(string teamId)
-        {
-            Debug.WriteLine("### GetTeamPageAsync ###");
-
-            var p1 = new SqlParameter("@IdTeam", teamId);
-
-            try
-            {
-                return await ExecuteStoreProcedureAsync<Page>("sp_GetPageByTeam", new[] { p1 }, Maps.ToPage);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-        }
-
         /// <summary>
         /// Execute an stored procedure @sp_name with the @parameters
         /// </summary>

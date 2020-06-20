@@ -14,6 +14,7 @@ using SchedulerApp.Services.DataService;
 using Prism.Unity;
 using SchedulerApp.Services.Request;
 using SchedulerApp.Services.UserService;
+using SchedulerApp.Repositories;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
@@ -48,6 +49,12 @@ namespace SchedulerApp
             containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
             //containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
 
+            // REPOSITORIES
+            containerRegistry.Register<IGroupRepository, GroupRepository>();
+            containerRegistry.Register<ITeamRepository, TeamRepository>();
+            containerRegistry.Register<IPageRepository, PageRepository>();
+
+            // SERVICES
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
             containerRegistry.RegisterSingleton<ISqlDataService, SqlDataService>();
             containerRegistry.RegisterSingleton<IRequestService, RequestService>();
@@ -58,6 +65,7 @@ namespace SchedulerApp
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSchedulePage, TeamSchedulePageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSelectionPage, TeamSelectionPageViewModel>();
+            containerRegistry.RegisterForNavigation<MotorSchedulePage, MotorSchedulePageViewModel>();
         }
     }
 }

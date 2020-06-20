@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="SchedulerApp.Views.MotorSchedulePage"
+			 Visual="Material">
+
+	<ContentPage.ToolbarItems>
+		<ToolbarItem IconImageSource="baseline_save_white_24.jpg"
+					 Command="{Binding SaveCommand}" />
+
+	</ContentPage.ToolbarItems>
+
+	<Grid HorizontalOptions="FillAndExpand">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="0"
+			   Text="{Binding Schedule.Competition}"
+			   Placeholder="Competition" />
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="1"
+			   Text="{Binding Schedule.Track}"
+			   Placeholder="Track" />
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="2"
+			   Text="{Binding Schedule.Car}"
+			   Placeholder="Car" />
+		<Entry Grid.Column="0"
+			   Grid.ColumnSpan="2"
+			   Grid.Row="3"
+			   Text="{Binding Schedule.Stream}"
+			   Placeholder="Stream URL" />
+		<DatePicker Grid.Column="0"
+					Grid.Row="4"
+					Date="{Binding Schedule.Date}"
+					Format="dd-MMM-yyyy"
+					HorizontalOptions="FillAndExpand" />
+		<TimePicker Grid.Column="1"
+					Grid.Row="4"
+					Time="{Binding Time}"
+					Format="HH:mm"
+					HorizontalOptions="FillAndExpand" />
+
+	</Grid>
+</ContentPage>

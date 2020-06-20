@@ -99,7 +99,7 @@ namespace SchedulerApp.ViewModels
             //TODO: Implement validations
             if (string.IsNullOrEmpty(Schedule.Competition))
             {
-                await _pageDialogService.DisplayAlertAsync("Competition is empty", "The Competiton cannot be empty", "Ok");
+                await _pageDialogService.DisplayAlertAsync("Competition is empty", "The Competition cannot be empty", "Ok");
             }
             else
             {
@@ -109,7 +109,9 @@ namespace SchedulerApp.ViewModels
                 _originalItem = Schedule;
 
                 var parameter = new NavigationParameters() { { "model", Schedule } };
-                await NavigationService.GoBackAsync(parameter);
+
+                // Cannot navigate back because the Team Selection page
+                await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);
             }
 
         }

@@ -5,6 +5,7 @@ using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Providers;
+using SchedulerApp.Repositories;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.Services.IdentityService;
 using SchedulerApp.ViewModels.Base;
@@ -21,7 +22,11 @@ namespace SchedulerApp.ViewModels
     {
         private readonly IIdentityService _identityService;
         private readonly IPageDialogService _pageDialogService;
-        private readonly ISqlDataService _sqlDataService;
+        private readonly IGroupRepository _groupRepository;
+        private readonly ITeamRepository _teamRepository;
+        private readonly IPageRepository _pageRepository;
+
+        //private readonly ISqlDataService _sqlDataService;
 
         public DelegateCommand LoginCommand { get; private set; }
 
@@ -32,11 +37,19 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _isLoginActive, value);
         }
 
-        public LoginPageViewModel(INavigationService navigationService, IIdentityService identityService, IPageDialogService pageDialogService, ISqlDataService sqlDataService) : base(navigationService)
+        public LoginPageViewModel(INavigationService navigationService, 
+            IIdentityService identityService, 
+            IPageDialogService pageDialogService,
+            IGroupRepository groupRepository,
+            ITeamRepository teamRepository,
+            IPageRepository pageRepository) : base(navigationService)
         {
             _identityService = identityService;
             _pageDialogService = pageDialogService;
-            _sqlDataService = sqlDataService;
+            _groupRepository = groupRepository;
+            _teamRepository = teamRepository;
+            _pageRepository = pageRepository;
+            //_sqlDataService = sqlDataService;
 
             LoginCommand = new DelegateCommand(() => Retry(), () => CanRetry()).ObservesCanExecute(() => IsLoginActive);
         }
@@ -102,12 +115,12 @@ namespace SchedulerApp.ViewModels
         {
             try
             {
-                var group = await _sqlDataService.GetGroupInfoAsync(groupId);
-                var teams = await _sqlDataService.GetGroupTeamsAsync(groupId);
+                var group = await _groupRepository.GetGroupInfoAsync(groupId);
+                var teams = await _teamRepository.GetTeamsFromGroupAsync(groupId);
 
                 foreach (var t in teams)
                 {
-                    t.Page = await _sqlDataService.GetTeamPageAsync(t.Id);
+                    t.Page = await _pageRepository.GetPageByTeamAsync(t.Id);
                 }
 
                 group.Teams = teams;
