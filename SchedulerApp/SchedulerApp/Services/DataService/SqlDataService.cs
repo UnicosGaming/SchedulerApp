@@ -47,5 +47,37 @@ namespace SchedulerApp.Services.DataService
                 throw;
             }
         }
+
+        /// <summary>
+        /// Execute the stored procedure @sp_name with the @parameters
+        /// </summary>
+        /// <param name="sp_name">Name of the stored procedure</param>
+        /// <param name="parameters">Array of parameters</param>
+        /// <returns>Number of rows affected</returns>
+        public async Task<int> ExecuteNonQueryStoredProcedure(string sp_name, SqlParameter[] parameters)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    SqlCommand command = new SqlCommand(sp_name, connection)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure
+                    };
+
+                    command.Parameters.AddRange(parameters);
+
+                    connection.Open();
+
+                    var result = await command.ExecuteNonQueryAsync();
+
+                    return result;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

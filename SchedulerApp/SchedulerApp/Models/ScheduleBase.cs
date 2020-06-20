@@ -29,6 +29,13 @@ namespace SchedulerApp.Models
             set => SetProperty(ref _stream, value);
         }
 
+        private Team _team;
+        public Team Team
+        {
+            get => _team;
+            set => SetProperty(ref _team, value);
+        }
+
         /// <summary>
         /// Default constructor generate it's own Id
         /// </summary>

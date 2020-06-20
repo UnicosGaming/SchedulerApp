@@ -53,6 +53,8 @@ namespace SchedulerApp
             containerRegistry.Register<IGroupRepository, GroupRepository>();
             containerRegistry.Register<ITeamRepository, TeamRepository>();
             containerRegistry.Register<IPageRepository, PageRepository>();
+            containerRegistry.Register<ITeamScheduleReposiory, TeamScheduleRepository>();
+            containerRegistry.Register<IMotorScheduleRepository, MotorScheduleRepository>();
 
             // SERVICES
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();

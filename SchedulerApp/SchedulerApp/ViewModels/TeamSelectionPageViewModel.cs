@@ -48,7 +48,9 @@ namespace SchedulerApp.ViewModels
             {
                 var pageType = PageLocator.GetPage(team.Page.Name);
 
-                await NavigationService.NavigateAsync($"{pageType}");
+                var parameter = new NavigationParameters() { { "team", team } };
+
+                await NavigationService.NavigateAsync($"{pageType}", parameter);
             }
             catch (Exception ex)
             {

@@ -125,9 +125,12 @@ namespace SchedulerApp.ViewModels
             {
                 try
                 {
-                    var pageType = PageLocator.GetPage(CurrentUser.Group.Teams.First().Page.Name);
+                    var team = CurrentUser.Group.Teams.First();
+                    var pageType = PageLocator.GetPage(team.Page.Name);
 
-                    await NavigationService.NavigateAsync($"{pageType}");
+                    var parameter = new NavigationParameters(){ { "team", team } };
+
+                    await NavigationService.NavigateAsync($"{pageType}", parameter);
                 }
                 catch (Exception ex)
                 {

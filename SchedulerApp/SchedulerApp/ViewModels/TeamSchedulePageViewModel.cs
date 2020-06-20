@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Models;
+using SchedulerApp.Repositories;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.ViewModels.Base;
 using System;
@@ -14,7 +15,11 @@ namespace SchedulerApp.ViewModels
 {
     public class TeamSchedulePageViewModel : ViewModelBase
     {
+        private readonly IPageDialogService _pageDialogService;
+        private readonly ITeamScheduleReposiory _teamScheduleRepository;
+        //private readonly IDataService _dataService;
         private TeamSchedule _originalItem;
+        //private Team _currentTeam;
 
         public DelegateCommand SaveCommand { get; private set; }
 
@@ -26,9 +31,6 @@ namespace SchedulerApp.ViewModels
         }
 
         private TimeSpan _time;
-        private readonly IPageDialogService _pageDialogService;
-        private readonly IDataService _dataService;
-
         public TimeSpan Time
         {
             get
@@ -44,10 +46,11 @@ namespace SchedulerApp.ViewModels
                 RaisePropertyChanged(nameof(Time));
             }
         }
-        public TeamSchedulePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) : base(navigationService)
+        public TeamSchedulePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ITeamScheduleReposiory teamScheduleReposiory) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
-            _dataService = dataService;
+            _teamScheduleRepository = teamScheduleReposiory;
+            //_dataService = dataService;
 
             SaveCommand = new DelegateCommand(async () => await SaveAsync());
         }
@@ -55,9 +58,13 @@ namespace SchedulerApp.ViewModels
         public override void Initialize(INavigationParameters parameters)
         {
             _originalItem = parameters["original"] as TeamSchedule;
+            //_currentTeam = parameters["team"] as Team;
 
             if (_originalItem == null)
-                SetScheduleForAddition();
+            {
+                var _currentTeam = parameters["team"] as Team;
+                SetScheduleForAddition(_currentTeam);
+            }
             else
                 SetScheduleForEdition(parameters["model"] as TeamSchedule);
         }
@@ -74,14 +81,15 @@ namespace SchedulerApp.ViewModels
 
                 if (answer.Equals("Yes"))
                 {
-                    await _dataService.Save(Schedule);
+                    //await _dataService.Save(Schedule);
+                    await _teamScheduleRepository.Save(Schedule);
                 }
             }
         }
 
-        private void SetScheduleForAddition()
+        private void SetScheduleForAddition(Team team)
         {
-            _originalItem = new TeamSchedule();
+            _originalItem = new TeamSchedule() { Team = team };
             Schedule = _originalItem;
         }
 
@@ -96,6 +104,9 @@ namespace SchedulerApp.ViewModels
 
         private async Task SaveAsync()
         {
+            // TODO: Save with TeamScheduleRepository
+            // _teamScheduleRepository.Save(Schedule)
+
             //TODO: Implement validations
             if (string.IsNullOrEmpty(Schedule.Competition))
             {
@@ -103,15 +114,25 @@ namespace SchedulerApp.ViewModels
             }
             else
             {
-                await _dataService.Save(Schedule);
+                try
+                {
+                    //await _dataService.Save(Schedule);
+                    await _teamScheduleRepository.Save(Schedule);
 
-                // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
-                _originalItem = Schedule;
+                    // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
+                    _originalItem = Schedule;
 
-                var parameter = new NavigationParameters() { { "model", Schedule } };
+                    var parameter = new NavigationParameters() { { "model", Schedule } };
 
-                // Cannot navigate back because the Team Selection page
-                await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);
+                    // Cannot GoBack() because the TeamSelection page, reset the navigation stack instead.
+                    await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"### [ERROR] SaveAsync: {ex.Message}");
+                    await _pageDialogService.DisplayAlertAsync("ERROR", "Error on Save Team Schedule", "OK");
+                }
+
             }
 
         }
