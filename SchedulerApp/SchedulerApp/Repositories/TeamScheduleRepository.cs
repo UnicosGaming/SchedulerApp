@@ -9,12 +9,7 @@ using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public interface ITeamScheduleReposiory
-    {
-        Task Save(TeamSchedule schedule);
-    }
-
-    public class TeamScheduleRepository : ITeamScheduleReposiory
+    public class TeamScheduleRepository : IScheduleRepository<TeamSchedule>
     {
         private readonly ISqlDataService _sqlDataService;
 

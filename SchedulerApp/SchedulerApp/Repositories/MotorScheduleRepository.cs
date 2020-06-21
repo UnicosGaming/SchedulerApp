@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public interface IMotorScheduleRepository
-    {
-        Task Save(MotorSchedule schedule);
-    }
-
-    public class MotorScheduleRepository : IMotorScheduleRepository
+    public class MotorScheduleRepository : IScheduleRepository<MotorSchedule>
     {
         private readonly ISqlDataService _sqlDataService;
 

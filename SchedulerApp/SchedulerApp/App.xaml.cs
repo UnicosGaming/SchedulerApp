@@ -11,10 +11,11 @@ using Newtonsoft.Json;
 using SchedulerApp.Configuration;
 using System.IO;
 using SchedulerApp.Services.DataService;
-using Prism.Unity;
 using SchedulerApp.Services.Request;
 using SchedulerApp.Services.UserService;
 using SchedulerApp.Repositories;
+using Unity;
+using SchedulerApp.Models;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
@@ -53,8 +54,8 @@ namespace SchedulerApp
             containerRegistry.Register<IGroupRepository, GroupRepository>();
             containerRegistry.Register<ITeamRepository, TeamRepository>();
             containerRegistry.Register<IPageRepository, PageRepository>();
-            containerRegistry.Register<ITeamScheduleReposiory, TeamScheduleRepository>();
-            containerRegistry.Register<IMotorScheduleRepository, MotorScheduleRepository>();
+            containerRegistry.Register(typeof(IScheduleRepository<TeamSchedule>), typeof(TeamScheduleRepository));
+            containerRegistry.Register(typeof(IScheduleRepository<MotorSchedule>), typeof(MotorScheduleRepository));
 
             // SERVICES
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
