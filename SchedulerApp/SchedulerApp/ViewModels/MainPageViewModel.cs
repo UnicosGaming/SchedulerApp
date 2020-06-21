@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using SchedulerApp.Configuration;
 using SchedulerApp.Models;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.Services.IdentityService;
@@ -24,12 +25,12 @@ namespace SchedulerApp.ViewModels
         private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
         private readonly IIdentityService _identityService;
-        private TeamSchedule _originalItem;
+        private Schedule _originalItem;
 
 
-        public DelegateCommand<TeamSchedule> ItemTappedCommand { get; private set; }
+        public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
-        public DelegateCommand<TeamSchedule> DeleteCommand { get; private set; }
+        public DelegateCommand<Schedule> DeleteCommand { get; private set; }
         public DelegateCommand LogoutCommand { get; private set; }
 
         private string _headerText;
@@ -46,8 +47,8 @@ namespace SchedulerApp.ViewModels
         //    set => SetProperty(ref _currentUser, value);
         //}
 
-        ObservableCollection<TeamSchedule> _items;
-        public ObservableCollection<TeamSchedule> Items
+        ObservableCollection<Schedule> _items;
+        public ObservableCollection<Schedule> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -59,9 +60,9 @@ namespace SchedulerApp.ViewModels
             _dataService = dataService;
             _identityService = identityService;
 
-            ItemTappedCommand = new DelegateCommand<TeamSchedule>((x) => EditSchedule(x));
+            ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
             AddCommand = new DelegateCommand(() => AddSchedule());
-            DeleteCommand = new DelegateCommand<TeamSchedule>((x) => DeleteSchedule(x));
+            DeleteCommand = new DelegateCommand<Schedule>((x) => DeleteSchedule(x));
             LogoutCommand = new DelegateCommand(() => Logout());
         }
 
@@ -77,18 +78,20 @@ namespace SchedulerApp.ViewModels
                 IsTaskRunning = true;
 
                 // User Info
-                var user = parameters["user"] as User;
-                if (user != null)
-                {
-                    //_currentUser = user;
-                    CurrentUser = user;
-                    HeaderText = $"{user.Name} [{user.Group.Name}]";
+                CurrentUser = Session.CurrentUser;
+                HeaderText = $"{CurrentUser.Name} [{CurrentUser.Group.Name}]";
+                //var user = parameters["user"] as User;
+                //if (user != null)
+                //{
+                //    //_currentUser = user;
+                //    CurrentUser = user;
+                //    HeaderText = $"{user.Name} [{user.Group.Name}]";
 
-                }
+                //}
 
                 // Load schedules
                 var schedules = await _dataService.Get();
-                Items = new ObservableCollection<TeamSchedule>(schedules.OrderBy(x => x.Date));
+                Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
             }
             catch (Exception ex)
             {
@@ -102,7 +105,7 @@ namespace SchedulerApp.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            var schedule = parameters["model"] as TeamSchedule;
+            var schedule = parameters["model"] as Schedule;
 
             if (schedule != null)
             {
@@ -118,8 +121,7 @@ namespace SchedulerApp.ViewModels
         {
             if (CurrentUser.Group.Teams.Count > 1)
             {
-                var parameter = new NavigationParameters() { { "user", CurrentUser } };
-                await NavigationService.NavigateAsync("TeamSelectionPage", parameter);
+                await NavigationService.NavigateAsync("TeamSelectionPage");
             }
             else
             {
@@ -140,7 +142,7 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        private async void EditSchedule(TeamSchedule schedule)
+        private async void EditSchedule(Schedule schedule)
         {
             _originalItem = schedule.Clone();
 
@@ -154,7 +156,7 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        private async void DeleteSchedule(TeamSchedule schedule)
+        private async void DeleteSchedule(Schedule schedule)
         {
             var answer = await _pageDialogService.DisplayActionSheetAsync($"Delete {schedule.Competition}", "No", "Yes");
 

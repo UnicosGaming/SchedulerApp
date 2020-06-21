@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using SchedulerApp.Configuration;
 using SchedulerApp.Models;
 using SchedulerApp.ViewModels.Base;
 using System;
@@ -34,12 +35,7 @@ namespace SchedulerApp.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            var user = parameters["user"] as User;
-
-            if (user != null)
-            {
-                CurrentUser = user;
-            }
+            CurrentUser = Session.CurrentUser;
         }
 
         private async void NavigateToDetails(Team team)

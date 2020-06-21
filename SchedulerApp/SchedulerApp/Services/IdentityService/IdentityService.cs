@@ -105,6 +105,9 @@ namespace SchedulerApp.Services.IdentityService
         public async Task LogoutAsync()
         {
             Debug.WriteLine("### LogoutAsync ###");
+            
+            Session.SetUser(null);
+
             while (_accounts.Any())
             {
                 await PCA.RemoveAsync(_accounts.FirstOrDefault());

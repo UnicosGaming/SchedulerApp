@@ -3,6 +3,7 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using SchedulerApp.Configuration;
 using SchedulerApp.Models;
 using SchedulerApp.Providers;
 using SchedulerApp.Repositories;
@@ -86,7 +87,10 @@ namespace SchedulerApp.ViewModels
 
                 user.Group = group;
 
-                NavigateToMainPage(user);
+                Session.SetUser(user);
+
+                await NavigationService.NavigateAsync("/NavigationPage/MainPage");
+
             }
             catch (Exception ex)
             {

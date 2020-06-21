@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SchedulerApp.Models
 {
-    public class TeamSchedule:ScheduleBase<TeamSchedule>
+    public class TeamSchedule: Schedule
     {
         private string _opponent;
         public string Opponent

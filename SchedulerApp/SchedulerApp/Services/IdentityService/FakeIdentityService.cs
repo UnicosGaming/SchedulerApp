@@ -1,4 +1,5 @@
-﻿using SchedulerApp.Models;
+﻿using SchedulerApp.Configuration;
+using SchedulerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +22,9 @@ namespace SchedulerApp.Services.IdentityService
             });
         }
 
-        public Task LogoutAsync() { return Task.FromResult(true); }
+        public Task LogoutAsync() {
+            Session.SetUser(null);
+            return Task.FromResult(true); 
+        }
     }
 }

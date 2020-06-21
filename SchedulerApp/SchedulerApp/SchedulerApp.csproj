@@ -13,7 +13,6 @@
     <None Remove="Tools\**" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Models\Schedule.cs" />
     <Compile Remove="ViewModels\SchedulePageViewModel.cs" />
     <Compile Remove="ViewModels\SplashPageViewModel.cs" />
     <Compile Remove="Views\SchedulePage.xaml.cs" />

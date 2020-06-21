@@ -19,7 +19,6 @@ namespace SchedulerApp.ViewModels
         private readonly ITeamScheduleReposiory _teamScheduleRepository;
         //private readonly IDataService _dataService;
         private TeamSchedule _originalItem;
-        //private Team _currentTeam;
 
         public DelegateCommand SaveCommand { get; private set; }
 
@@ -58,7 +57,6 @@ namespace SchedulerApp.ViewModels
         public override void Initialize(INavigationParameters parameters)
         {
             _originalItem = parameters["original"] as TeamSchedule;
-            //_currentTeam = parameters["team"] as Team;
 
             if (_originalItem == null)
             {
@@ -104,9 +102,6 @@ namespace SchedulerApp.ViewModels
 
         private async Task SaveAsync()
         {
-            // TODO: Save with TeamScheduleRepository
-            // _teamScheduleRepository.Save(Schedule)
-
             //TODO: Implement validations
             if (string.IsNullOrEmpty(Schedule.Competition))
             {
