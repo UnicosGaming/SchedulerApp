@@ -22,6 +22,7 @@ namespace SchedulerApp.Repositories
         {
             var pId = new SqlParameter("@id", schedule.Id);
             var pIdTeam = new SqlParameter("@id_team", schedule.Team.Id);
+            var pCodeTeam = new SqlParameter("@code_team", schedule.Team.Code);
             var pCompetition = new SqlParameter("@competition", schedule.Competition);
             var pStream = new SqlParameter("@stream", schedule.Stream);
             var pDate = new SqlParameter("@date", schedule.Date);
@@ -29,7 +30,7 @@ namespace SchedulerApp.Repositories
 
             try
             {
-                await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_InsertTeamSchedule", new[] { pId, pIdTeam, pCompetition, pStream, pDate, pOpponent });
+                await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_InsertTeamSchedule", new[] { pId, pIdTeam, pCodeTeam, pCompetition, pStream, pDate, pOpponent });
             }
             catch (Exception)
             {
