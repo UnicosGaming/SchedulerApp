@@ -7,16 +7,20 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace SchedulerApp.Repositories
 {
-    public class TeamScheduleRepository : IWriteRepository<TeamSchedule>, IReadRepository<TeamSchedule>
+    public class TeamScheduleRepository : IWriteRepository<TeamSchedule>, IReadRepository<TeamSchedule>, IDeleteRepository<TeamSchedule>
     {
         private readonly ISqlDataService _sqlDataService;
 
         public TeamScheduleRepository(ISqlDataService sqlDataService)
         {
             _sqlDataService = sqlDataService;
+
+
+
         }
 
         public async Task Insert(TeamSchedule schedule)
@@ -57,7 +61,7 @@ namespace SchedulerApp.Repositories
             }
         }
 
-        public async Task<List<TeamSchedule>> Get()
+        public async Task<List<TeamSchedule>> GetAll(string group_id, int skip = 0)
         {
             throw new NotImplementedException();
         }
@@ -69,6 +73,20 @@ namespace SchedulerApp.Repositories
             try
             {
                 return await _sqlDataService.ExecuteReadStoreProcedureAsync<TeamSchedule>("sp_GetTeamDetails", new[] { pId }, Maps.ToTeamSchedule);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async void Delete(string id)
+        {
+            var pId = new SqlParameter("@id", id);
+
+            try
+            {
+                await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_DeleteTeamSchedule", new[] { pId });
             }
             catch (Exception)
             {

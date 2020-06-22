@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public class MotorScheduleRepository : IWriteRepository<MotorSchedule>, IReadRepository<MotorSchedule>
+    public class MotorScheduleRepository : IWriteRepository<MotorSchedule>, IReadRepository<MotorSchedule>, IDeleteRepository<MotorSchedule>
     {
         private readonly ISqlDataService _sqlDataService;
 
@@ -58,7 +58,7 @@ namespace SchedulerApp.Repositories
             }
         }
 
-        public async Task<List<MotorSchedule>> Get()
+        public async Task<List<MotorSchedule>> GetAll(string group_id, int skip = 0)
         {
             throw new NotImplementedException();
         }
@@ -70,6 +70,20 @@ namespace SchedulerApp.Repositories
             try
             {
                 return await _sqlDataService.ExecuteReadStoreProcedureAsync<MotorSchedule>("sp_GetMotorDetails", new[] { pId }, Maps.ToMotorSchedule);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async void Delete(string id)
+        {
+            var pId = new SqlParameter("@id", id);
+
+            try
+            {
+                await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_DeleteMotorSchedule", new[] { pId });
             }
             catch (Exception)
             {

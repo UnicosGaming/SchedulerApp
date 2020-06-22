@@ -85,6 +85,8 @@ namespace SchedulerApp
             containerRegistry.Register(typeof(IReadRepository<Schedule>), typeof(ScheduleRepository));
             containerRegistry.Register(typeof(IReadRepository<TeamSchedule>), typeof(TeamScheduleRepository));
             containerRegistry.Register(typeof(IReadRepository<MotorSchedule>), typeof(MotorScheduleRepository));
+            containerRegistry.Register(typeof(IDeleteRepository<TeamSchedule>), typeof(TeamScheduleRepository));
+            containerRegistry.Register(typeof(IDeleteRepository<MotorSchedule>), typeof(MotorScheduleRepository));
         }
     }
 }

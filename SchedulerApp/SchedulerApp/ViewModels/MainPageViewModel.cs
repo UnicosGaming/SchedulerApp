@@ -28,6 +28,8 @@ namespace SchedulerApp.ViewModels
         private readonly IDataService _dataService;
         private readonly IIdentityService _identityService;
         private readonly IReadRepository<Schedule> _scheduleRepository;
+        private readonly IDeleteRepository<TeamSchedule> _teamDeleteRepository;
+        private readonly IDeleteRepository<MotorSchedule> _motorDeleteRepository;
         private Schedule _originalItem;
 
 
@@ -43,6 +45,13 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _headerText, value);
         }
 
+        private bool _isReadOnly;
+        public bool IsReadOnly
+        {
+            get => _isReadOnly;
+            set => SetProperty(ref _isReadOnly, value);
+        }
+
         ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
         {
@@ -54,12 +63,16 @@ namespace SchedulerApp.ViewModels
             IPageDialogService pageDialogService,
             IDataService dataService,
             IIdentityService identityService,
-            IReadRepository<Schedule> scheduleRepository) : base(navigationService)
+            IReadRepository<Schedule> scheduleRepository,
+            IDeleteRepository<TeamSchedule> teamDeleteRepository,
+            IDeleteRepository<MotorSchedule> motorDeleteRepository) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
             _dataService = dataService;
             _identityService = identityService;
             _scheduleRepository = scheduleRepository;
+            _teamDeleteRepository = teamDeleteRepository;
+            _motorDeleteRepository = motorDeleteRepository;
 
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
             AddCommand = new DelegateCommand(() => AddSchedule());
@@ -80,6 +93,7 @@ namespace SchedulerApp.ViewModels
                 // User Info
                 CurrentUser = Session.CurrentUser;
                 HeaderText = $"{CurrentUser.Name} [{CurrentUser.Group.Name}]";
+                IsReadOnly = CurrentUser.Group.IsReadOnly;
 
                 await LoadSchedulesAsync();
 
@@ -108,7 +122,7 @@ namespace SchedulerApp.ViewModels
         {
             try
             {
-                var schedules = await _scheduleRepository.Get();
+                var schedules = await _scheduleRepository.GetAll(CurrentUser.Group.Id);
                 Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
             }
             catch (Exception)
@@ -145,7 +159,7 @@ namespace SchedulerApp.ViewModels
 
         private async void EditSchedule(Schedule schedule)
         {
-            if (schedule != null)
+            if ((!IsReadOnly) && (schedule != null))
             {
                 var pageType = PageLocator.GetPage(schedule.Team.Page.Name);
 
@@ -156,11 +170,17 @@ namespace SchedulerApp.ViewModels
         }
         private async void DeleteSchedule(Schedule schedule)
         {
+
             var answer = await _pageDialogService.DisplayActionSheetAsync($"Delete {schedule.Competition}", "No", "Yes");
 
             if (answer.Equals("Yes"))
             {
-                _dataService.Delete(schedule.Id);
+                // TODO: Refactor this $h17
+                if (schedule.Team.Page.Name.Equals("team"))
+                    _teamDeleteRepository.Delete(schedule.Id);
+                else
+                    _motorDeleteRepository.Delete(schedule.Id);
+
                 Items.Remove(schedule);
             }
         }

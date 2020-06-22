@@ -18,13 +18,14 @@ namespace SchedulerApp.Repositories
             _sqlDataService = sqlDataService;
         }
 
-        public async Task<List<Schedule>> Get()
+        public async Task<List<Schedule>> GetAll(string group_id, int skip = 0)
         {
-            var pSkip = new SqlParameter("@rowsToSkip", System.Data.SqlDbType.TinyInt) { Value = 0 };
+            var pSkip = new SqlParameter("@rowsToSkip", System.Data.SqlDbType.TinyInt) { Value = skip };
+            var pIdGroup = new SqlParameter("@id_group", group_id);
 
             try
             {
-                return await _sqlDataService.ExecuteReadStoreProcedureAsync<List<Schedule>>("sp_GetNextSchedules", new[] { pSkip }, Maps.ToSchedules);
+                return await _sqlDataService.ExecuteReadStoreProcedureAsync<List<Schedule>>("sp_GetNextSchedules", new[] { pSkip, pIdGroup }, Maps.ToSchedules);
             }
             catch (Exception)
             {

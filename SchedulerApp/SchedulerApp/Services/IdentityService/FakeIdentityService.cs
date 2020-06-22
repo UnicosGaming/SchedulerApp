@@ -17,7 +17,7 @@ namespace SchedulerApp.Services.IdentityService
                 Group = new Group("5B8853D2-5908-4048-9796-2F7797A91E05")
                 {
                     Name = "Admin",
-                    Description = "Admin group"
+                    Description = "God mode"
                 }
             });
         }
