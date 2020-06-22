@@ -8,10 +8,14 @@ namespace SchedulerApp.ViewModels
 {
     public class TeamSchedulePageViewModel : SchedulePageBase<TeamSchedule>
     {
-        public TeamSchedulePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IScheduleRepository<TeamSchedule> teamScheduleRepository) 
-            : base(navigationService, pageDialogService, teamScheduleRepository)
+        public TeamSchedulePageViewModel(INavigationService navigationService, 
+            IPageDialogService pageDialogService, 
+            IWriteRepository<TeamSchedule> writeRepository,
+            IReadRepository<TeamSchedule> readRepository) 
+            : base(navigationService, pageDialogService, writeRepository, readRepository)
         {
 
         }
+
     }
 }

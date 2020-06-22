@@ -13,7 +13,7 @@ namespace SchedulerApp.Services.DataService
         //Task<List<Team>> GetGroupTeamsAsync(string groupId);
         //Task<Page> GetTeamPageAsync(string teamId);
 
-        Task<T> ExecuteStoreProcedureAsync<T>(string sp_name, SqlParameter[] parameters, Func<SqlDataReader, T> mapper);
+        Task<T> ExecuteReadStoreProcedureAsync<T>(string sp_name, SqlParameter[] parameters, Func<SqlDataReader, T> mapper);
         Task<int> ExecuteNonQueryStoredProcedure(string sp_name, SqlParameter[] parameters);
     }
 }

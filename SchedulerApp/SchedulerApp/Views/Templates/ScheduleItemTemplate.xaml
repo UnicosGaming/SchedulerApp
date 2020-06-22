@@ -3,15 +3,23 @@
 			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 			 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:b="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
+			 xmlns:converters="clr-namespace:SchedulerApp.Converters"
 			 mc:Ignorable="d"
 			 x:Class="SchedulerApp.Views.Templates.ScheduleItemTemplate"
-			 BackgroundColor="{StaticResource BlackColor}">
+			 BackgroundColor="{StaticResource BlackColor}" Margin="4">
+
+	<ContentView.Resources>
+		<ResourceDictionary>
+			<converters:CodeToImageNameConverter x:Key="codeToImageNameConverter" />
+		</ResourceDictionary>
+	</ContentView.Resources>
+
 	<ContentView.Content>
 		<Grid RowSpacing="0"
-			  ColumnSpacing="15"
-			  Margin="14">
+			  ColumnSpacing="8"
+			  Margin="6">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
@@ -20,21 +28,26 @@
 				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
-			<Label Grid.Column="0"
+			<Image Grid.Column="0"
+				   Grid.Row="0"
+				   Grid.RowSpan="2"
+				   Source="{Binding Team.Code, Converter={StaticResource codeToImageNameConverter}}" />
+
+			<Label Grid.Column="1"
 				   Grid.Row="0"
 				   Text="{Binding Date, StringFormat='{0:dd-MMM}'}"
 				   TextColor="{StaticResource WhiteColor}"
 				   HorizontalTextAlignment="Center" />
-			<Label Grid.Column="0"
+			<Label Grid.Column="1"
 				   Grid.Row="1"
 				   Text="{Binding Date, StringFormat='{0:HH:mm}'}"
 				   TextColor="{StaticResource WhiteColor}"
 				   HorizontalTextAlignment="Center" />
-			<Label Grid.Column="1"
+			<Label Grid.Column="2"
 				   Grid.Row="0"
 				   Text="{Binding Competition}"
 				   TextColor="{StaticResource WhiteColor}" />
-			<Label Grid.Column="1"
+			<Label Grid.Column="2"
 				   Grid.Row="1"
 				   Text="{Binding Stream}"
 				   TextColor="{StaticResource WhiteColor}" />

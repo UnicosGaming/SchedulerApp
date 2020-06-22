@@ -21,7 +21,7 @@ namespace SchedulerApp.Services.DataService
         /// <param name="sp_name">Name of the stored procedure</param>
         /// <param name="parameters">Array of parameters</param>
         /// <returns>@SqlDataReader with the results</returns>
-        public async Task<T> ExecuteStoreProcedureAsync<T>(string sp_name, SqlParameter[] parameters, Func<SqlDataReader, T> mapper)
+        public async Task<T> ExecuteReadStoreProcedureAsync<T>(string sp_name, SqlParameter[] parameters, Func<SqlDataReader, T> mapper)
         {
             Debug.WriteLine("### ExecuteStoreProcedureAsync ###");
 

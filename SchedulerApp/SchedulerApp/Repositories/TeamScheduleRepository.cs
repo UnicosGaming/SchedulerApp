@@ -1,4 +1,5 @@
 ﻿using SchedulerApp.Models;
+using SchedulerApp.Models.Mappers;
 using SchedulerApp.Services.DataService;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public class TeamScheduleRepository : IScheduleRepository<TeamSchedule>
+    public class TeamScheduleRepository : IWriteRepository<TeamSchedule>, IReadRepository<TeamSchedule>
     {
         private readonly ISqlDataService _sqlDataService;
 
@@ -18,7 +19,7 @@ namespace SchedulerApp.Repositories
             _sqlDataService = sqlDataService;
         }
 
-        public async Task Save(TeamSchedule schedule)
+        public async Task Insert(TeamSchedule schedule)
         {
             var pId = new SqlParameter("@id", schedule.Id);
             var pIdTeam = new SqlParameter("@id_team", schedule.Team.Id);
@@ -31,6 +32,43 @@ namespace SchedulerApp.Repositories
             try
             {
                 await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_InsertTeamSchedule", new[] { pId, pIdTeam, pCodeTeam, pCompetition, pStream, pDate, pOpponent });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task Update(TeamSchedule schedule)
+        {
+            var pId = new SqlParameter("@id", schedule.Id);
+            var pCompetition = new SqlParameter("@competition", schedule.Competition);
+            var pStream = new SqlParameter("@stream", schedule.Stream);
+            var pDate = new SqlParameter("@date", schedule.Date);
+            var pOpponent = new SqlParameter("@opponent", schedule.Opponent);
+
+            try
+            {
+                await _sqlDataService.ExecuteNonQueryStoredProcedure("sp_UpdateTeamSchedule", new[] { pId, pCompetition, pStream, pDate, pOpponent });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<TeamSchedule>> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TeamSchedule> Get(string id)
+        {
+            var pId = new SqlParameter("@id", id);
+
+            try
+            {
+                return await _sqlDataService.ExecuteReadStoreProcedureAsync<TeamSchedule>("sp_GetTeamDetails", new[] { pId }, Maps.ToTeamSchedule);
             }
             catch (Exception)
             {

@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using SchedulerApp.Configuration;
 using SchedulerApp.Models;
+using SchedulerApp.Repositories;
 using SchedulerApp.Services.DataService;
 using SchedulerApp.Services.IdentityService;
 using SchedulerApp.ViewModels.Base;
@@ -15,6 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Schema;
 
@@ -25,6 +27,7 @@ namespace SchedulerApp.ViewModels
         private readonly IPageDialogService _pageDialogService;
         private readonly IDataService _dataService;
         private readonly IIdentityService _identityService;
+        private readonly IReadRepository<Schedule> _scheduleRepository;
         private Schedule _originalItem;
 
 
@@ -40,13 +43,6 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _headerText, value);
         }
 
-        //private User _currentUser;
-        //public User CurrentUser
-        //{
-        //    get => _currentUser;
-        //    set => SetProperty(ref _currentUser, value);
-        //}
-
         ObservableCollection<Schedule> _items;
         public ObservableCollection<Schedule> Items
         {
@@ -54,11 +50,16 @@ namespace SchedulerApp.ViewModels
             set => SetProperty(ref _items, value);
         }
 
-        public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService, IIdentityService identityService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService,
+            IPageDialogService pageDialogService,
+            IDataService dataService,
+            IIdentityService identityService,
+            IReadRepository<Schedule> scheduleRepository) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
             _dataService = dataService;
             _identityService = identityService;
+            _scheduleRepository = scheduleRepository;
 
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
             AddCommand = new DelegateCommand(() => AddSchedule());
@@ -70,9 +71,8 @@ namespace SchedulerApp.ViewModels
         /// Initialize the list with the schedules
         /// </summary>
         /// <param name="parameters"></param>
-        public override async void Initialize(INavigationParameters parameters)
+        public async override void Initialize(INavigationParameters parameters)
         {
-            // TODO: Refactor
             try
             {
                 IsTaskRunning = true;
@@ -80,21 +80,22 @@ namespace SchedulerApp.ViewModels
                 // User Info
                 CurrentUser = Session.CurrentUser;
                 HeaderText = $"{CurrentUser.Name} [{CurrentUser.Group.Name}]";
-                //var user = parameters["user"] as User;
-                //if (user != null)
-                //{
-                //    //_currentUser = user;
-                //    CurrentUser = user;
-                //    HeaderText = $"{user.Name} [{user.Group.Name}]";
 
-                //}
+                await LoadSchedulesAsync();
 
-                // Load schedules
-                var schedules = await _dataService.Get();
-                Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
+                var schedule = parameters["schedule"] as Schedule;
+
+                if (schedule != null)
+                {
+                    if (!Items.Any(x => x.Id.Equals(schedule.Id)))
+                    {
+                        Items.Add(schedule);
+                    }
+                }
             }
             catch (Exception ex)
             {
+                await _pageDialogService.DisplayAlertAsync("ERROR", "Error on load schedules", "OK");
                 Debug.WriteLine($"### [MainPageViewModel - Initialize] Error: {ex.Message}");
             }
             finally
@@ -103,18 +104,17 @@ namespace SchedulerApp.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        private async Task LoadSchedulesAsync()
         {
-            var schedule = parameters["model"] as Schedule;
-
-            if (schedule != null)
+            try
             {
-                if (!Items.Any(x => x.Id.Equals(schedule.Id)))
-                {
-                    Items.Add(schedule);
-                }
+                var schedules = await _scheduleRepository.Get();
+                Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
             }
-
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private async void AddSchedule()
@@ -127,10 +127,11 @@ namespace SchedulerApp.ViewModels
             {
                 try
                 {
+                    // The group only manages one team
                     var team = CurrentUser.Group.Teams.First();
                     var pageType = PageLocator.GetPage(team.Page.Name);
 
-                    var parameter = new NavigationParameters(){ { "team", team } };
+                    var parameter = new NavigationParameters() { { "team", team } };
 
                     await NavigationService.NavigateAsync($"{pageType}", parameter);
                 }
@@ -144,18 +145,15 @@ namespace SchedulerApp.ViewModels
 
         private async void EditSchedule(Schedule schedule)
         {
-            _originalItem = schedule.Clone();
-
             if (schedule != null)
             {
-                var parameters = new NavigationParameters() {
-                    { "model", schedule },
-                    {"original", _originalItem }
-                };
-                await NavigationService.NavigateAsync("TeamSchedulePage", parameters);
+                var pageType = PageLocator.GetPage(schedule.Team.Page.Name);
+
+                var parameter = new NavigationParameters() { { "schedule", schedule } };
+
+                await NavigationService.NavigateAsync($"{pageType}", parameter);
             }
         }
-
         private async void DeleteSchedule(Schedule schedule)
         {
             var answer = await _pageDialogService.DisplayActionSheetAsync($"Delete {schedule.Competition}", "No", "Yes");

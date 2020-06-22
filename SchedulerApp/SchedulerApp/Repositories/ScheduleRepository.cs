@@ -4,35 +4,37 @@ using SchedulerApp.Services.DataService;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public class GroupRepository: IGroupRepository
+    public class ScheduleRepository : IReadRepository<Schedule>
     {
         private readonly ISqlDataService _sqlDataService;
 
-        public GroupRepository(ISqlDataService sqlDataService)
+        public ScheduleRepository(ISqlDataService sqlDataService)
         {
             _sqlDataService = sqlDataService;
         }
 
-        public async Task<Group> GetGroupInfoAsync(string groupId)
+        public async Task<List<Schedule>> Get()
         {
-            Debug.WriteLine("### GetGroupInfoAsync ###");
-
-            var p1 = new SqlParameter("@IdGroup", groupId);
+            var pSkip = new SqlParameter("@rowsToSkip", System.Data.SqlDbType.TinyInt) { Value = 0 };
 
             try
             {
-                return await _sqlDataService.ExecuteReadStoreProcedureAsync<Group>("sp_GetGroupInfo", new[] { p1 }, Maps.ToGroup);
+                return await _sqlDataService.ExecuteReadStoreProcedureAsync<List<Schedule>>("sp_GetNextSchedules", new[] { pSkip }, Maps.ToSchedules);
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        public async Task<Schedule> Get(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

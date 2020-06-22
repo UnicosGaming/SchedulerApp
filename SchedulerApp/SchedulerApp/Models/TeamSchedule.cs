@@ -12,5 +12,8 @@ namespace SchedulerApp.Models
             get => _opponent;
             set => SetProperty(ref _opponent, value);
         }
+
+        public TeamSchedule() : base() { }
+        public TeamSchedule(string id) : base(id) { }
     }
 }

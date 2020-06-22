@@ -20,5 +20,8 @@ namespace SchedulerApp.Models
             set => SetProperty(ref _track, value);
         }
 
+        public MotorSchedule() : base() { }
+        public MotorSchedule(string id) : base(id) { }
+
     }
 }

@@ -4,15 +4,19 @@ using Prism.Services;
 using SchedulerApp.Models;
 using SchedulerApp.Repositories;
 using System;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace SchedulerApp.ViewModels.Base
 {
-    public class SchedulePageBase<T> : ViewModelBase where T : Schedule, new()
+    public abstract class SchedulePageBase<T> : ViewModelBase where T : Schedule, new()
     {
         private readonly IPageDialogService _pageDialogService;
-        private readonly IScheduleRepository<T> _scheduleRepository;
+        protected readonly IWriteRepository<T> WriteRepository;
+        protected readonly IReadRepository<T> ReadRepository;
+
         private T _originalItem;
+        private bool _isEditing;
 
         public DelegateCommand SaveCommand { get; private set; }
 
@@ -40,25 +44,30 @@ namespace SchedulerApp.ViewModels.Base
             }
         }
 
-        public SchedulePageBase(INavigationService navigationService, IPageDialogService pageDialogService, IScheduleRepository<T> scheduleRepository) : base(navigationService)
+        public SchedulePageBase(INavigationService navigationService, 
+            IPageDialogService pageDialogService, 
+            IWriteRepository<T> writeRepository,
+            IReadRepository<T> readRepository) : base(navigationService)
         {
             _pageDialogService = pageDialogService;
-            _scheduleRepository = scheduleRepository;
+            WriteRepository = writeRepository;
+            ReadRepository = readRepository;
 
             SaveCommand = new DelegateCommand(async () => await SaveAsync());
         }
 
         public override void Initialize(INavigationParameters parameters)
         {
-            _originalItem = parameters["original"] as T;
-
-            if (_originalItem == null)
+            if (parameters.ContainsKey("schedule"))
             {
-                var _currentTeam = parameters["team"] as Team;
-                SetScheduleForAddition(_currentTeam);
+                var schedule = parameters["schedule"] as Schedule;
+                SetScheduleForEditionAsync(schedule.Id);
             }
             else
-                SetScheduleForEdition(parameters["model"] as T);
+            {
+                var _team = parameters["team"] as Team;
+                SetScheduleForAddition(_team);
+            }
         }
 
         /// <summary>
@@ -73,27 +82,26 @@ namespace SchedulerApp.ViewModels.Base
 
                 if (answer.Equals("Yes"))
                 {
-                    await _scheduleRepository.Save(Schedule);
+                    await SaveAsync();
                 }
             }
         }
 
-        private void SetScheduleForAddition(Team team)
+        protected virtual void SetScheduleForAddition(Team team)
         {
             _originalItem = new T() { Team = team };
-            Schedule = _originalItem;
+            Schedule = _originalItem.Clone() as T;
         }
 
-        private void SetScheduleForEdition(T schedule)
+        protected async virtual void SetScheduleForEditionAsync(string id_schedule)
         {
-            // Save the the time value before setting the Schedule property because after that the value will lose.
-            _time = schedule.Date.TimeOfDay;
-
-            Schedule = schedule;
-            Time = _time;
+            _isEditing = true;
+            _originalItem = await ReadRepository.Get(id_schedule);
+            Schedule = _originalItem.Clone() as T;
+            Time = _originalItem.Date.TimeOfDay;
         }
 
-        public virtual async Task SaveAsync()
+        protected virtual async Task SaveAsync()
         {
             //TODO: Implement validations
             if (string.IsNullOrEmpty(Schedule.Competition))
@@ -104,12 +112,15 @@ namespace SchedulerApp.ViewModels.Base
             {
                 try
                 {
-                    await _scheduleRepository.Save(Schedule);
+                    if (_isEditing)
+                        await WriteRepository.Update(Schedule);
+                    else
+                        await WriteRepository.Insert(Schedule);
 
                     // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
                     _originalItem = Schedule;
 
-                    var parameter = new NavigationParameters() { { "model", Schedule } };
+                    var parameter = new NavigationParameters() { { "schedule", Schedule } };
 
                     // Cannot GoBack() because the TeamSelection page, reset the navigation stack instead.
                     await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);

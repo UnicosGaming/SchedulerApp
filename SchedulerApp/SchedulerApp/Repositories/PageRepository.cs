@@ -32,7 +32,7 @@ namespace SchedulerApp.Repositories
 
             try
             {
-                return await _sqlDataService.ExecuteStoreProcedureAsync<Page>("sp_GetPageByTeam", new[] { p1 }, Maps.ToPage);
+                return await _sqlDataService.ExecuteReadStoreProcedureAsync<Page>("sp_GetPageByTeam", new[] { p1 }, Maps.ToPage);
             }
             catch (Exception)
             {

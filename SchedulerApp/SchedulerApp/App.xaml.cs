@@ -47,28 +47,44 @@ namespace SchedulerApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-            containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
-            //containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
 
-            // REPOSITORIES
-            containerRegistry.Register<IGroupRepository, GroupRepository>();
-            containerRegistry.Register<ITeamRepository, TeamRepository>();
-            containerRegistry.Register<IPageRepository, PageRepository>();
-            containerRegistry.Register(typeof(IScheduleRepository<TeamSchedule>), typeof(TeamScheduleRepository));
-            containerRegistry.Register(typeof(IScheduleRepository<MotorSchedule>), typeof(MotorScheduleRepository));
+            RegisterRepositories(containerRegistry);
 
-            // SERVICES
-            containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
-            containerRegistry.RegisterSingleton<ISqlDataService, SqlDataService>();
-            containerRegistry.RegisterSingleton<IRequestService, RequestService>();
-            containerRegistry.Register<IUserService, UserService>(); // Transient registration
+            RegisterServices(containerRegistry);
 
+            RegisterNavigationPages(containerRegistry);
+        }
+
+        private static void RegisterNavigationPages(IContainerRegistry containerRegistry)
+        {
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSchedulePage, TeamSchedulePageViewModel>();
             containerRegistry.RegisterForNavigation<TeamSelectionPage, TeamSelectionPageViewModel>();
             containerRegistry.RegisterForNavigation<MotorSchedulePage, MotorSchedulePageViewModel>();
+        }
+
+        private static void RegisterServices(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
+            //containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
+            containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
+            containerRegistry.RegisterSingleton<ISqlDataService, SqlDataService>();
+            containerRegistry.RegisterSingleton<IRequestService, RequestService>();
+            containerRegistry.Register<IUserService, UserService>(); // Transient registration
+        }
+
+        private static void RegisterRepositories(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<IGroupRepository, GroupRepository>();
+            containerRegistry.Register<ITeamRepository, TeamRepository>();
+            containerRegistry.Register<IPageRepository, PageRepository>();
+            containerRegistry.Register(typeof(IWriteRepository<TeamSchedule>), typeof(TeamScheduleRepository));
+            containerRegistry.Register(typeof(IWriteRepository<MotorSchedule>), typeof(MotorScheduleRepository));
+            containerRegistry.Register(typeof(IReadRepository<Schedule>), typeof(ScheduleRepository));
+            containerRegistry.Register(typeof(IReadRepository<TeamSchedule>), typeof(TeamScheduleRepository));
+            containerRegistry.Register(typeof(IReadRepository<MotorSchedule>), typeof(MotorScheduleRepository));
         }
     }
 }

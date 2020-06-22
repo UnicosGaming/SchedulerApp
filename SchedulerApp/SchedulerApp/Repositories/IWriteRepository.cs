@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SchedulerApp.Repositories
 {
-    public interface IScheduleRepository<T> where T: Schedule
+    public interface IWriteRepository<T> where T: Schedule
     {
-        Task Save(T schedule);
+        Task Insert(T schedule);
+        Task Update(T schedule);
     }
 }
