@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="5.2.7" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.847" />
@@ -56,7 +57,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientID`#&quot; $env:SCHEDULER_APP_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#MsalID`#&quot; $env:SCHEDULER_APP_MSAL_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ConnectionString`#&quot; $env:SCHEDULER_APP_CONNECTION_STRING" />
+    <Exec Command="powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientID`#&quot; $env:SCHEDULER_APP_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#MsalID`#&quot; $env:SCHEDULER_APP_MSAL_KEY&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ConnectionString`#&quot; $env:SCHEDULER_APP_CONNECTION_STRING&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#DatabaseServerName`#&quot; $env:SCHEDULER_APP_DB_SERVER&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#DatabaseName`#&quot; $env:SCHEDULER_APP_DB_NAME&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#TenantID`#&quot; $env:SCHEDULER_APP_TENANT_ID&#xD;&#xA;&#xD;&#xA;powershell.exe -ExecutionPolicy Unrestricted $(ProjectDir)..\..\Tools\replace-keys-script.ps1 $(ProjectDir)Configuration\Secrets.cs &quot;`#ClientSecret`#&quot; $env:SCHEDULER_APP_CLIENT_SECRET" />
   </Target>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="git checkout $(ProjectDir)Configuration\Secrets.cs" />

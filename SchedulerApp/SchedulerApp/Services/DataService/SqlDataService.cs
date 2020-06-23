@@ -1,6 +1,8 @@
-﻿using SchedulerApp.Configuration;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using SchedulerApp.Configuration;
 using SchedulerApp.Models;
 using SchedulerApp.Models.Mappers;
+using SchedulerApp.Services.IdentityService;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -13,7 +15,16 @@ namespace SchedulerApp.Services.DataService
 {
     public class SqlDataService : ISqlDataService
     {
-        private string _connectionString => Secrets.ConnectionString;
+        private readonly IDatabaseIdentityService _databaseIdentityService;
+
+        //private string _connectionString => Secrets.ConnectionString;
+        private string _connectionString => @"Data Source=tcp:{Secrets.DatabaseServerName},1433;Initial Catalog={Secrets.DatabaseName};Persist Security Info=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False";
+        
+
+        public SqlDataService(IDatabaseIdentityService databaseIdentityService)
+        {
+            _databaseIdentityService = databaseIdentityService;
+        }
 
         /// <summary>
         /// Execute an stored procedure @sp_name with the @parameters
@@ -29,6 +40,8 @@ namespace SchedulerApp.Services.DataService
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
+                    connection.AccessToken = _databaseIdentityService.GetDbAuthenticationToken();
+
                     SqlCommand command = new SqlCommand(sp_name, connection)
                     {
                         CommandType = System.Data.CommandType.StoredProcedure
@@ -60,6 +73,8 @@ namespace SchedulerApp.Services.DataService
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
+                    connection.AccessToken = _databaseIdentityService.GetDbAuthenticationToken();
+
                     SqlCommand command = new SqlCommand(sp_name, connection)
                     {
                         CommandType = System.Data.CommandType.StoredProcedure

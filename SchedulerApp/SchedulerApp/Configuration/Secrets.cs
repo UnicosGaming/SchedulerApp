@@ -15,5 +15,9 @@ namespace SchedulerApp.Configuration
         public const string MsalID = "#MsalID#";
         public static readonly string[] Scopes = { "User.Read" };
         public static string ConnectionString => "#ConnectionString#";
+        public static string DatabaseServerName => "#DatabaseServerName#";
+        public static string DatabaseName => "#DatabaseName#";
+        public static string TenanId => "#TenantID#";
+        public static string ClientSecret => "#ClientSecret#";
     }
 }

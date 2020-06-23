@@ -67,11 +67,12 @@ namespace SchedulerApp
 
         private static void RegisterServices(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
-            //containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
+            //containerRegistry.RegisterSingleton<IIdentityService, FakeIdentityService>();
+            containerRegistry.RegisterSingleton<IIdentityService, IdentityService>();
             containerRegistry.RegisterSingleton<IDataService, FakeDataService>();
             containerRegistry.RegisterSingleton<ISqlDataService, SqlDataService>();
             containerRegistry.RegisterSingleton<IRequestService, RequestService>();
+            containerRegistry.RegisterSingleton<IDatabaseIdentityService, DatabaseIdentityService>();
             containerRegistry.Register<IUserService, UserService>(); // Transient registration
         }
 
