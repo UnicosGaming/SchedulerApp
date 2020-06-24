@@ -60,10 +60,11 @@ namespace SchedulerApp.Services.UserService
             if (groupObj.ContainsKey("code"))
                 throw new Exception((string)groupObj["code"]);
 
-            return new Group((string)groupObj["value"][1]["id"])
+
+            return new Group(groupObj["value"].Last["id"].ToString())
             {
-                Name = (string)groupObj["value"][1]["displayName"],
-                Description = (string)groupObj["value"][1]["description"]
+                Name = groupObj["value"].Last["displayName"].ToString(),
+                Description = groupObj["value"].Last["description"].ToString()
             };
         }
     }

@@ -18,7 +18,7 @@ namespace SchedulerApp.Services.DataService
         private readonly IDatabaseIdentityService _databaseIdentityService;
 
         //private string _connectionString => Secrets.ConnectionString;
-        private string _connectionString => @"Data Source=tcp:{Secrets.DatabaseServerName},1433;Initial Catalog={Secrets.DatabaseName};Persist Security Info=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False";
+        private string _connectionString => $"Data Source=tcp:{Secrets.DatabaseServerName},1433;Initial Catalog={Secrets.DatabaseName};Persist Security Info=False;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False";
         
 
         public SqlDataService(IDatabaseIdentityService databaseIdentityService)
