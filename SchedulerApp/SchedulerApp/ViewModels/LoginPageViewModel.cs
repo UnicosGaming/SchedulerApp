@@ -136,11 +136,5 @@ namespace SchedulerApp.ViewModels
                 throw;
             }
         }
-
-        private async Task NavigateToMainPage(User user)
-        {
-            var parameter = new NavigationParameters() { { "user", user } };
-            await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);
-        }
     }
 }
