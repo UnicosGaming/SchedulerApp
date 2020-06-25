@@ -45,7 +45,7 @@
 								<SwipeView.LeftItems>
 									<SwipeItems Mode="Execute">
 										<SwipeItem Text="Delete"
-												   IconImageSource="baseline_delete_forever_white_24.png"												   
+												   IconImageSource="baseline_delete_forever_white_24.png"
 												   BackgroundColor="{StaticResource RedColor}"
 												   Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteCommand}"
 												   CommandParameter="{Binding .}" />
@@ -64,14 +64,14 @@
 				</ListView.Behaviors>
 			</ListView>
 
-			<Button WidthRequest="56"
-					HeightRequest="56"
-					CornerRadius="28"
+			<Button Text="ADD"
 					Margin="16"
+					BackgroundColor="{StaticResource RedColor}"
+					BorderColor="{StaticResource AccentColor}"
+					BorderWidth="6"
 					IsVisible="{Binding IsReadOnly, Converter={StaticResource boolReverseConverter}}"
 					AbsoluteLayout.LayoutFlags="PositionProportional"
 					AbsoluteLayout.LayoutBounds="1.0, 1.0, -1, -1"
-					ImageSource="baseline_add_white_24.png"
 					Command="{Binding AddCommand}" />
 
 			<ActivityIndicator x:Name="aiDefault"

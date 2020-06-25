@@ -6,7 +6,8 @@
 			 xmlns:converters="clr-namespace:SchedulerApp.Converters"
 			 mc:Ignorable="d"
 			 x:Class="SchedulerApp.Views.Templates.ScheduleItemTemplate"
-			 BackgroundColor="{StaticResource BlackColor}" Margin="4">
+			 BackgroundColor="{StaticResource BlackColor}"
+			 Visual="Material">
 
 	<ContentView.Resources>
 		<ResourceDictionary>

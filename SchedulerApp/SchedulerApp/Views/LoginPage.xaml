@@ -12,20 +12,20 @@
 				   VerticalOptions="CenterAndExpand"
 				   HorizontalOptions="CenterAndExpand" />
 
-			<Grid VerticalOptions="End"
-				  HorizontalOptions="FillAndExpand">
+			<ActivityIndicator x:Name="aiDefault"
+							   VerticalOptions="End"
+							   HorizontalOptions="CenterAndExpand"
+							   IsRunning="{Binding IsTaskRunning}" />
 
-				<Button Text="Log In"
-						Command="{Binding LoginCommand}"
-						IsVisible="{Binding IsLoginActive}"
-						VerticalOptions="End"
-						HorizontalOptions="FillAndExpand" />
+			<Button Text="LOG IN"
+					BackgroundColor="{StaticResource RedColor}"
+					BorderColor="{StaticResource AccentColor}"
+					BorderWidth="6"
+					Command="{Binding LoginCommand}"
+					IsVisible="{Binding IsLoginActive}"
+					VerticalOptions="End"
+					HorizontalOptions="FillAndExpand" />
 
-				<ActivityIndicator x:Name="aiDefault"
-								   VerticalOptions="End"
-								   HorizontalOptions="CenterAndExpand"
-								   IsRunning="{Binding IsTaskRunning}" />
-			</Grid>
 		</StackLayout>
 	</ContentPage.Content>
 </ContentPage>
