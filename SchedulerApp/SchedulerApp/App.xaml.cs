@@ -16,6 +16,9 @@ using SchedulerApp.Services.UserService;
 using SchedulerApp.Repositories;
 using Unity;
 using SchedulerApp.Models;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 [assembly: ExportFont("UnicaOne-Regular.ttf")]
@@ -42,6 +45,12 @@ namespace SchedulerApp
 
             await NavigationService.NavigateAsync("/LoginPage");
             //await NavigationService.NavigateAsync("NavigationPage/MainPage");
+        }
+
+        protected override void OnStart()
+        {
+            AppCenter.Start("android=0968c346-da04-4f3b-8fef-dd8b387330a9;",
+                    typeof(Analytics), typeof(Crashes));
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
