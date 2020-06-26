@@ -96,16 +96,6 @@ namespace SchedulerApp.ViewModels
                 IsReadOnly = CurrentUser.Group.IsReadOnly;
 
                 await LoadSchedulesAsync();
-
-                var schedule = parameters["schedule"] as Schedule;
-
-                if (schedule != null)
-                {
-                    if (!Items.Any(x => x.Id.Equals(schedule.Id)))
-                    {
-                        Items.Add(schedule);
-                    }
-                }
             }
             catch (Exception ex)
             {

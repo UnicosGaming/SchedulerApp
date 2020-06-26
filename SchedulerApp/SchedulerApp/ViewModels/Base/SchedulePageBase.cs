@@ -71,7 +71,9 @@ namespace SchedulerApp.ViewModels.Base
         }
 
         /// <summary>
-        /// Check if there are changes when the user press on back arrow
+        /// Check if there are changes when the user press on back arrow.
+        /// We do not control this with IConfirmNavigation because Xamarin does not expose 
+        /// the events for software or hardware back buttons.
         /// </summary>
         /// <param name="parameters"></param>
         public async override void OnNavigatedFrom(INavigationParameters parameters)
@@ -86,6 +88,7 @@ namespace SchedulerApp.ViewModels.Base
                 }
             }
         }
+
 
         protected virtual void SetScheduleForAddition(Team team)
         {
@@ -120,10 +123,8 @@ namespace SchedulerApp.ViewModels.Base
                     // Overwrite the original item by the new one in order to bypass the comparison in OnNavigatedFrom
                     _originalItem = Schedule;
 
-                    var parameter = new NavigationParameters() { { "schedule", Schedule } };
-
                     // Cannot GoBack() because the TeamSelection page, reset the navigation stack instead.
-                    await NavigationService.NavigateAsync("/NavigationPage/MainPage", parameter);
+                    await NavigationService.NavigateAsync("/NavigationPage/MainPage");
                 }
                 catch (Exception ex)
                 {
