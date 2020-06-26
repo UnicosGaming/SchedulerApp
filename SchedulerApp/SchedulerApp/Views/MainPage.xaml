@@ -61,6 +61,10 @@
 					<prism:EventToCommandBehavior EventName="ItemTapped"
 												  Command="{Binding ItemTappedCommand}"
 												  EventArgsConverter="{StaticResource itemTappedEventArgsConverter}" />
+
+					<prism:EventToCommandBehavior EventName="ItemAppearing"
+												  Command="{Binding LoadNextItemsCommand}"
+												  EventArgsParameterPath="Item"/>
 				</ListView.Behaviors>
 			</ListView>
 

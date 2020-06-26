@@ -34,6 +34,7 @@ namespace SchedulerApp.ViewModels
 
 
         public DelegateCommand<Schedule> ItemTappedCommand { get; private set; }
+        public DelegateCommand<Schedule> LoadNextItemsCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
         public DelegateCommand<Schedule> DeleteCommand { get; private set; }
         public DelegateCommand LogoutCommand { get; private set; }
@@ -75,6 +76,7 @@ namespace SchedulerApp.ViewModels
             _motorDeleteRepository = motorDeleteRepository;
 
             ItemTappedCommand = new DelegateCommand<Schedule>((x) => EditSchedule(x));
+            LoadNextItemsCommand = new DelegateCommand<Schedule>((x) => LoadNextItems(x));
             AddCommand = new DelegateCommand(() => AddSchedule());
             DeleteCommand = new DelegateCommand<Schedule>((x) => DeleteSchedule(x));
             LogoutCommand = new DelegateCommand(() => Logout());
@@ -114,11 +116,42 @@ namespace SchedulerApp.ViewModels
             {
                 var schedules = await _scheduleRepository.GetAll(CurrentUser.Group.Id);
                 Items = new ObservableCollection<Schedule>(schedules.OrderBy(x => x.Date));
+
+                Debug.WriteLine($"### Total Items: {Items.Count}");
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private async Task LoadNextItems(Schedule schedule)
+        {
+            Debug.WriteLine("### LoadNextItems ###");
+            try
+            {
+                IsTaskRunning = true;
+
+                if (schedule.Id == Items.Last().Id)
+                {
+                    var schedules = await _scheduleRepository.GetAll(CurrentUser.Group.Id, Items.Count);
+                    foreach (var s in schedules.OrderBy(x => x.Date))
+                    {
+                        Items.Add(s);
+                    }
+                }
+
+                Debug.WriteLine($"### Total Items: {Items.Count}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"### [ERROR] LoadNextItems: {ex.Message}");
+            }
+            finally
+            {
+                IsTaskRunning = false;
+            }
+
         }
 
         private async void AddSchedule()
